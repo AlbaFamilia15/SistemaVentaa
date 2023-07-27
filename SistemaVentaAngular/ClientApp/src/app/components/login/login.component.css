@@ -1,0 +1,30 @@
+.loginCard {
+    max-width:328px !important;
+    margin:2em auto;
+    text-align:center;
+    max-height:600px;
+    
+    
+}
+.body {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+  background:url(logo.jpg);
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center;
+}
+
+.header {
+  text-align: center;
+}
+
+.full-width {
+  width: 80%;
+}
+
+
+
+
