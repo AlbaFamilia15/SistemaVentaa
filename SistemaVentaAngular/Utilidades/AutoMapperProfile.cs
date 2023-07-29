@@ -100,6 +100,50 @@ namespace SistemaVentaAngular.Utilidades
                 );
             #endregion
 
+            #region VentasCredito
+            CreateMap<VentasCredito, VentasCreditoDTO>()
+                .ForMember(destino =>
+                    destino.TotalTexto,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-PE")))
+                ).ForMember(destino =>
+                    destino.FechaRegistro,
+                    opt => opt.MapFrom(origen => origen.FechaRegistro.Value.ToString("dd/MM/yyyy"))
+                );
+
+            CreateMap<VentasCreditoDTO, VentasCredito>()
+                .ForMember(destino =>
+                    destino.Total,
+                    opt => opt.MapFrom(origen => Convert.ToDecimal(origen.TotalTexto, new CultureInfo("es-PE")))
+                );
+
+            #endregion VentasCredito
+
+            #region DetalleVentasCredito
+            CreateMap<DetalleVentasCredito, DetalleVentasCreditoDTO>()
+                .ForMember(destino =>
+                    destino.DescripcionProducto,
+                    opt => opt.MapFrom(origen => origen.IdProductoNavigation.Nombre)
+                )
+                .ForMember(destino =>
+                    destino.PrecioTexto,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.Precio.Value, new CultureInfo("es-PE")))
+                )
+                .ForMember(destino =>
+                    destino.TotalTexto,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-PE")))
+                );
+
+            CreateMap<DetalleVentasCreditoDTO, DetalleVentasCredito>()
+                .ForMember(destino =>
+                    destino.Precio,
+                    opt => opt.MapFrom(origen => Convert.ToDecimal(origen.PrecioTexto, new CultureInfo("es-PE")))
+                )
+                .ForMember(destino =>
+                    destino.Total,
+                    opt => opt.MapFrom(origen => Convert.ToDecimal(origen.TotalTexto, new CultureInfo("es-PE")))
+                );
+            #endregion DetalleVentasCredito
+
             #region Reporte
             CreateMap<DetalleVenta, ReporteDTO>()
                 .ForMember(destino =>

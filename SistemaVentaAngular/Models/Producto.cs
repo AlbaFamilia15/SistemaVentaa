@@ -21,5 +21,6 @@ namespace SistemaVentaAngular.Models
 
         public virtual Categoria? IdCategoriaNavigation { get; set; }
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
+        public virtual ICollection<DetalleVentasCredito> DetalleVentasCredito { get; set; }
     }
 }

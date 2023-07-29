@@ -23,6 +23,8 @@ namespace SistemaVentaAngular.Models
         public virtual DbSet<Rol> Rols { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
         public virtual DbSet<Venta> Venta { get; set; } = null!;
+        public virtual DbSet<VentasCredito> VentasCredito { get; set; } = null!;
+        public virtual DbSet<DetalleVentasCredito> DetalleVentasCredito { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -215,6 +217,65 @@ namespace SistemaVentaAngular.Models
                 entity.Property(e => e.Total)
                     .HasColumnType("decimal(10, 2)")
                     .HasColumnName("total");
+            });
+
+            modelBuilder.Entity<VentasCredito>(entity =>
+            {
+                entity.HasKey(e => e.IdVentasCredito)
+                    .HasName("PK__VentasCr__B17F254A5C95AD87");
+
+                entity.Property(e => e.IdVentasCredito).HasColumnName("idVentasCredito");
+
+                entity.Property(e => e.FechaRegistro)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fechaRegistro")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.NumeroDocumento)
+                    .HasMaxLength(40)
+                    .IsUnicode(false)
+                    .HasColumnName("numeroDocumento");
+
+                entity.Property(e => e.TipoPago)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("tipoPago");
+
+                entity.Property(e => e.Total)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("total");
+            });
+
+            modelBuilder.Entity<DetalleVentasCredito>(entity =>
+            {
+                entity.HasKey(e => e.IdDetalleVentasCredito)
+                    .HasName("PK__DetalleV__9C5B40F56A6EE0C2");
+
+                entity.Property(e => e.IdDetalleVentasCredito).HasColumnName("idDetalleVentasCredito");
+
+                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
+
+                entity.Property(e => e.IdProducto).HasColumnName("idProducto");
+
+                entity.Property(e => e.IdVentasCredito).HasColumnName("idVentasCredito");
+
+                entity.Property(e => e.Precio)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("precio");
+
+                entity.Property(e => e.Total)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("total");
+
+                entity.HasOne(d => d.IdProductoNavigation)
+                    .WithMany(p => p.DetalleVentasCredito)
+                    .HasForeignKey(d => d.IdProducto)
+                    .HasConstraintName("FK__DetalleVe__idPro__534D60F1");
+
+                entity.HasOne(d => d.IdVentasCreditoNavigation)
+                    .WithMany(p => p.DetalleVentasCredito)
+                    .HasForeignKey(d => d.IdVentasCredito)
+                    .HasConstraintName("FK__DetalleVe__idVen__5441852A");
             });
 
             OnModelCreatingPartial(modelBuilder);
