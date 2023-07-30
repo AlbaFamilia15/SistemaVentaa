@@ -72,3 +72,46 @@ cantidad int,
 precio decimal(10,2),
 total decimal(10,2)
 )
+
+ALTER TABLE [dbo].[DetalleVenta] add CantidadML decimal (10,2)
+GO
+
+CREATE TABLE [dbo].[VentasCredito](
+	[idVentasCredito] [int] IDENTITY(1,1) NOT NULL,
+	[numeroDocumento] [varchar](40) NULL,
+	[tipoPago] [varchar](50) NULL,
+	[fechaRegistro] [datetime] NULL,
+	[total] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idVentasCredito] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[VentasCredito] ADD  DEFAULT (getdate()) FOR [fechaRegistro]
+GO
+
+CREATE TABLE [dbo].[DetalleVentasCredito](
+	[idDetalleVentasCredito] [int] IDENTITY(1,1) NOT NULL,
+	[idVentasCredito] [int] NULL,
+	[idProducto] [int] NULL,
+	[cantidad] [int] NULL,
+	[precio] [decimal](10, 2) NULL,
+	[total] [decimal](10, 2) NULL,
+	[CantidadML] [decimal](10, 2) NULL,
+	[CustomerName] [varchar](2000) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idDetalleVentasCredito] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[DetalleVentasCredito]  WITH CHECK ADD FOREIGN KEY([idProducto])
+REFERENCES [dbo].[Producto] ([idProducto])
+GO
+
+ALTER TABLE [dbo].[DetalleVentasCredito]  WITH CHECK ADD FOREIGN KEY([idVentasCredito])
+REFERENCES [dbo].[VentasCredito] ([idVentasCredito])
+GO

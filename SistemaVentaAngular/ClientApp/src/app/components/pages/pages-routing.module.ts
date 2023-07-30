@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CreditSaleComponent } from './credit-sale/credit-sale.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HistorialventaComponent } from './historialventa/historialventa.component';
 import { PagesComponent } from './pages.component';
@@ -12,15 +13,16 @@ import { VenderComponent } from './vender/vender.component';
 const routes: Routes = [
   {
     path: '', component: PagesComponent, children: [
-      {path:'dashboard',component:DashboardComponent},
-      {path:'usuarios',component:UsuariosComponent},
-      {path:'productos',component:ProductosComponent},
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'usuarios', component: UsuariosComponent },
+      { path: 'productos', component: ProductosComponent },
       { path: 'vender', component: VenderComponent },
-      {path:'historialventas',component:HistorialventaComponent},
-      {path:'reportes',component:ReportesComponent}
+      { path: 'historialventas', component: HistorialventaComponent },
+      { path: 'reportes', component: ReportesComponent },
+      { path: 'credit-sales', component: CreditSaleComponent }
     ]
   }
-  ];
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

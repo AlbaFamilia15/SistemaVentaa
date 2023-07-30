@@ -23,6 +23,7 @@ builder.Services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
 builder.Services.AddScoped<IProductoRepositorio, ProductoRepositorio>();
 builder.Services.AddScoped<IVentaRepositorio, VentaRepositorio>();
 builder.Services.AddScoped<IDashBoardRepositorio, DashBoardRepositorio>();
+builder.Services.AddScoped<IVentasCreditoRepository, VentasCreditoRepository>();
 
 var app = builder.Build();
 
