@@ -50,24 +50,31 @@
         </mat-grid-tile>
 
         <!--<mat-grid-tile>
+    <mat-form-field appearance="outline">
+      <mat-label>Existencia MN</mat-label>
+      <input matInput autocomplete="off" formControlName="Existenciamn" type="text">
+      <mat-icon matSuffix>edit_square</mat-icon>
+    </mat-form-field>
+  </mat-grid-tile>-->
+        <!--<mat-grid-tile>
+    <mat-form-field appearance="outline">
+      <mat-label>Precio Regular</mat-label>
+      <mat-select formControlName="idCategoria">
+        <mat-option value="05ml">05ml</mat-option>
+        <mat-option value="10ml">10ml</mat-option>
+        <mat-option value="15ml">15ml</mat-option>
+        <mat-option value="30ml">30ml</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>-->
+
+        <mat-grid-tile>
           <mat-form-field appearance="outline">
-            <mat-label>Existencia MN</mat-label>
-            <input matInput autocomplete="off" formControlName="Existenciamn" type="text">
+            <mat-label>NetPrice</mat-label>
+            <input matInput autocomplete="off" formControlName="netPrice" type="number">
             <mat-icon matSuffix>edit_square</mat-icon>
           </mat-form-field>
-        </mat-grid-tile>-->
-
-        <!--<mat-grid-tile>
-          <mat-form-field appearance="outline">
-            <mat-label>Precio Regular</mat-label>
-            <mat-select formControlName="idCategoria">
-              <mat-option value="05ml">05ml</mat-option>
-              <mat-option value="10ml">10ml</mat-option>
-              <mat-option value="15ml">15ml</mat-option>
-              <mat-option value="30ml">30ml</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>-->
+        </mat-grid-tile>
 
 
       </mat-grid-list>

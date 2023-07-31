@@ -115,3 +115,6 @@ GO
 ALTER TABLE [dbo].[DetalleVentasCredito]  WITH CHECK ADD FOREIGN KEY([idVentasCredito])
 REFERENCES [dbo].[VentasCredito] ([idVentasCredito])
 GO
+
+ALTER TABLE [dbo].[Producto] ADD NetPrice Decimal(10,2) NULL
+GO

@@ -9,5 +9,6 @@
         public int? Stock { get; set; }
         public string? Precio { get; set; }
         public int? cantidadML { get; set; }
+        public decimal? NetPrice { get; set; }
     }
 }
