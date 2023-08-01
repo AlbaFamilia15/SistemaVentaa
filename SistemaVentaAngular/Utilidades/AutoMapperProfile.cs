@@ -87,6 +87,9 @@ namespace SistemaVentaAngular.Utilidades
                 .ForMember(destino =>
                     destino.TotalTexto,
                     opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-PE")))
+                ).ForMember(destino =>
+                    destino.CantidadML,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.CantidadML.Value, new CultureInfo("es-PE")))
                 );
 
             CreateMap<DetalleVentaDTO, DetalleVenta>()
@@ -97,6 +100,10 @@ namespace SistemaVentaAngular.Utilidades
                 .ForMember(destino =>
                     destino.Total,
                     opt => opt.MapFrom(origen => Convert.ToDecimal(origen.TotalTexto, new CultureInfo("es-PE")))
+                )
+                .ForMember(destino =>
+                    destino.CantidadML,
+                    opt => opt.MapFrom(origen => Convert.ToDecimal(origen.CantidadML, new CultureInfo("es-PE")))
                 );
             #endregion
 

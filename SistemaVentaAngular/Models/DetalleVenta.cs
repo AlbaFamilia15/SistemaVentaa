@@ -11,8 +11,7 @@ namespace SistemaVentaAngular.Models
         public int? Cantidad { get; set; }
         public decimal? Precio { get; set; }
         public decimal? Total { get; set; }
-
-        public string? CantidadML { get; set; }
+        public decimal? CantidadML { get; set; }
 
         public virtual Producto? IdProductoNavigation { get; set; }
         public virtual Venta? IdVentaNavigation { get; set; }

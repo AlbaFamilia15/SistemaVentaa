@@ -31,7 +31,7 @@ export class VenderComponent implements OnInit {
   formGroup: FormGroup;
   displayedColumns: string[] = ['producto', 'cantidad', 'cantidadML' ,'precio', 'total','accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-  cantidadML: string = "5";
+  cantidadML: number = 5;
 
   constructor(
     private fb: FormBuilder,
@@ -88,9 +88,18 @@ export class VenderComponent implements OnInit {
 
   onSubmitForm() {
 
+    if (this.agregarProducto.stock <= this.formGroup.value.cantidad) {
+      this._snackBar.open("Product stock is not available", "Oops", {
+        horizontalPosition: "center",
+        verticalPosition: "top",
+        duration: 3000
+      });
+      return;
+    }
+
     //const _cantidad: number = parseFloat(this.cantidadML);
     const _cantidad: number = this.formGroup.value.cantidad;
-    const _cantidadML: number = parseFloat(this.cantidadML);
+    const _cantidadML: number = parseFloat(String(this.cantidadML));
     const _precio: number = parseFloat(this.agregarProducto.precio);
     const _total: number = _cantidad * _precio;
     this.totalPagar = this.totalPagar + _total;
@@ -99,7 +108,7 @@ export class VenderComponent implements OnInit {
       idProducto: this.agregarProducto.idProducto,
       descripcionProducto: this.agregarProducto.nombre,
       cantidad: _cantidad,
-      cantidadML: _cantidadML,
+      cantidadML: String(_cantidadML),
       precioTexto: String(_precio.toFixed(2)),
       totalTexto: String(_total.toFixed(2))
     });
@@ -132,7 +141,6 @@ export class VenderComponent implements OnInit {
       const ventaDto: Venta = {
         tipoPago: this.tipodePago,
         totalTexto: String(this.totalPagar.toFixed(2)),
-        cantidadML:this.cantidadML,
         detalleVenta: this.ELEMENT_DATA
       }
 

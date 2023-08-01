@@ -15,7 +15,7 @@ export class DialogDetalleVentaComponent implements OnInit {
   tipoPago?: string = "";
   total?: string = "";
   detalleVenta: DetalleVenta[] = [
-    { idProducto: 1, descripcionProducto: "", cantidad: 0,cantidadML: 0,precioTexto:"0",totalTexto:"0"},
+    { idProducto: 1, descripcionProducto: "", cantidad: 0,cantidadML: "0",precioTexto:"0",totalTexto:"0"},
   ]
   displayedColumns: string[] = ['producto', 'cantidad','cantidadML', 'precio', 'total'];
  
@@ -26,7 +26,7 @@ export class DialogDetalleVentaComponent implements OnInit {
     this.tipoPago = _venta.tipoPago;
     this.total = _venta.totalTexto;
     this.detalleVenta = _venta.detalleVenta == null ? [
-      { idProducto: 1, descripcionProducto: "", cantidad: 0,cantidadML: 0, precioTexto: "0", totalTexto: "0" },
+      { idProducto: 1, descripcionProducto: "", cantidad: 0,cantidadML: "0", precioTexto: "0", totalTexto: "0" },
     ] : _venta.detalleVenta;
   }
 
