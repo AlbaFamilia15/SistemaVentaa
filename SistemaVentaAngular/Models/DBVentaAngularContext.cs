@@ -244,6 +244,10 @@ namespace SistemaVentaAngular.Models
                 entity.Property(e => e.Total)
                     .HasColumnType("decimal(10, 2)")
                     .HasColumnName("total");
+
+                entity.Property(e => e.IsPaid)
+                    .HasColumnType("bit")
+                    .HasColumnName("isPaid");
             });
 
             modelBuilder.Entity<DetalleVentasCredito>(entity =>

@@ -88,13 +88,13 @@ export class VenderComponent implements OnInit {
 
   onSubmitForm() {
 
-    if (this.agregarProducto.stock <= this.formGroup.value.cantidad) {
+    if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
       this._snackBar.open("Product stock is not available", "Oops", {
         horizontalPosition: "center",
         verticalPosition: "top",
         duration: 3000
       });
-      return;
+      //return;
     }
 
     //const _cantidad: number = parseFloat(this.cantidadML);

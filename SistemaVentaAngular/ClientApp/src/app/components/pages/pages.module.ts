@@ -19,7 +19,9 @@ import { DialogDeleteProductoComponent } from './modals/dialog-delete-producto/d
 import { DialogDetalleVentaComponent } from './modals/dialog-detalle-venta/dialog-detalle-venta.component';
 import { DialogResultadoVentaComponent } from './modals/dialog-resultado-venta/dialog-resultado-venta.component';
 import { CreditSaleComponent } from './credit-sale/credit-sale.component';
-
+import { HistorialventacreditoComponent } from './historialventacredito/historialventacredito.component';
+import { DialogDetalleVentacreditoComponent } from './modals/dialog-detalle-ventacredito/dialog-detalle-ventacredito.component';
+import { VentaCreditoReporteComponent } from './venta-credito-reporte/venta-credito-reporte.component'
 
 @NgModule({
   declarations: [
@@ -38,6 +40,9 @@ import { CreditSaleComponent } from './credit-sale/credit-sale.component';
     DialogDetalleVentaComponent,
     DialogResultadoVentaComponent,
     CreditSaleComponent,
+    HistorialventacreditoComponent,
+    DialogDetalleVentacreditoComponent,
+    VentaCreditoReporteComponent
   ],
   imports: [
     CommonModule,

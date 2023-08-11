@@ -28,6 +28,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 //controles para la fecha
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -67,7 +69,9 @@ import { MomentDateModule } from '@angular/material-moment-adapter'; /*npm insta
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MomentDateModule
+    MomentDateModule,
+    MatCheckboxModule,
+    MatSlideToggleModule
   ],
   exports: [
     HttpClientModule,
@@ -97,7 +101,9 @@ import { MomentDateModule } from '@angular/material-moment-adapter'; /*npm insta
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MomentDateModule
+    MomentDateModule,
+    MatCheckboxModule,
+    MatSlideToggleModule
   ],
   providers: [
     MatDatepickerModule,
