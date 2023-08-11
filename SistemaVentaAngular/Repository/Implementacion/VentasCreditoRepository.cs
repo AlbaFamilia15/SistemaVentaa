@@ -136,7 +136,12 @@ namespace SistemaVentaAngular.Repository.Implementacion
             {
                 try
                 {
-                    _dbcontext.VentasCredito.Update(entidad);
+                    var ventasCredito = await _dbcontext.VentasCredito.FirstOrDefaultAsync(x=>x.IdVentasCredito == entidad.IdVentasCredito);
+                    if(ventasCredito != null)
+                    {
+                        ventasCredito.IsPaid = entidad.IsPaid;
+                        _dbcontext.VentasCredito.Update(ventasCredito);
+                    }
                     await _dbcontext.SaveChangesAsync();
                     transaction.Commit();
                 }
