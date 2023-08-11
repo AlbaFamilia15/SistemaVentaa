@@ -7,5 +7,6 @@ export interface VentasCredito {
   cantidadML: string,
   tipoPago?: string,
   totalTexto?: string,
-  detalleVentasCredito?: DetalleVentasCredito[]
+  detalleVentasCredito?: DetalleVentasCredito[],
+  isPaid: boolean
 }

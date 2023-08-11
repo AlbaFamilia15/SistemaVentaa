@@ -86,6 +86,15 @@ export class CreditSaleComponent implements OnInit {
 
   onSubmitForm() {
 
+    if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
+      this._snackBar.open("Product stock is not available", "Oops", {
+        horizontalPosition: "center",
+        verticalPosition: "top",
+        duration: 3000
+      });
+      //return;
+    }
+
     //const _cantidad: number = parseFloat(this.cantidadML);
     const _cantidad: number = this.formGroup.value.cantidad;
     const _cantidadML: number = parseFloat(this.cantidadML);
@@ -101,7 +110,7 @@ export class CreditSaleComponent implements OnInit {
       cantidadML: _cantidadML,
       precioTexto: String(_precio.toFixed(2)),
       totalTexto: String(_total.toFixed(2)),
-      customerName: _customerName
+      customerName: _customerName,
     });
 
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -133,7 +142,8 @@ export class CreditSaleComponent implements OnInit {
         tipoPago: this.tipodePago,
         totalTexto: String(this.totalPagar.toFixed(2)),
         cantidadML: this.cantidadML,
-        detalleVentasCredito: this.ELEMENT_DATA
+        detalleVentasCredito: this.ELEMENT_DATA,
+        isPaid: false,
       }
 
       this._ventasCreditoServicio.registrar(ventasCreditoDto).subscribe({

@@ -182,6 +182,46 @@ namespace SistemaVentaAngular.Utilidades
                     opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-PE")))
                 );
             #endregion Reporte
+
+            #region VentasCreditReporte
+            CreateMap<DetalleVentasCredito, VentasCreditReporteDTO>()
+                .ForMember(destino =>
+                    destino.FechaRegistro,
+                    opt => opt.MapFrom(origen => origen.IdVentasCreditoNavigation.FechaRegistro.Value.ToString("dd/MM/yyyy"))
+                )
+                .ForMember(destino =>
+                    destino.NumeroDocumento,
+                    opt => opt.MapFrom(origen => origen.IdVentasCreditoNavigation.NumeroDocumento)
+                )
+                .ForMember(destino =>
+                    destino.TipoPago,
+                    opt => opt.MapFrom(origen => origen.IdVentasCreditoNavigation.TipoPago)
+                )
+                .ForMember(destino =>
+                    destino.TotalVenta,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.IdVentasCreditoNavigation.Total.Value, new CultureInfo("es-PE")))
+                )
+                .ForMember(destino =>
+                    destino.Producto,
+                    opt => opt.MapFrom(origen => origen.IdProductoNavigation.Nombre)
+                )
+                .ForMember(destino =>
+                    destino.Precio,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.Precio, new CultureInfo("es-PE")))
+                )
+                .ForMember(destino =>
+                    destino.Total,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.Total, new CultureInfo("es-PE")))
+                )
+                .ForMember(destino =>
+                    destino.customerName,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.CustomerName, new CultureInfo("es-PE")))
+                )
+                .ForMember(destino =>
+                    destino.isPaid,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.IdVentasCreditoNavigation.IsPaid))
+                );
+            #endregion Reporte
         }
 
     }

@@ -17,15 +17,21 @@ export class VentasCreditoService {
 
   }
 
-  historal(buscarPor: string, numeroVenta: string, fechaInicio: string, fechaFin: string): Observable<ResponseApi> {
+  historal(buscarPor: string, numeroVenta: string, fechaInicio: string, fechaFin: string, customerName: string): Observable<ResponseApi> {
 
-    return this.http.get<ResponseApi>(`${this.apiBase}Historial?buscarPor=${buscarPor}&numeroVenta=${numeroVenta}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
+    return this.http.get<ResponseApi>(`${this.apiBase}Historial?buscarPor=${buscarPor}&numeroVenta=${numeroVenta}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&customerName=${customerName}`);
 
   }
 
   reporte(fechaInicio: string, fechaFin: string): Observable<ResponseApi> {
 
     return this.http.get<ResponseApi>(`${this.apiBase}Reporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
+
+  }
+
+  update(request: VentasCredito): Observable<ResponseApi> {
+
+    return this.http.post<ResponseApi>(`${this.apiBase}update`, request, { headers: { 'Content-Type': 'application/json;charset=utf-8' } })
 
   }
 }

@@ -65,7 +65,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
             return VentaGenerada;
         }
 
-        public async Task<List<VentasCredito>> Historial(string buscarPor, string numeroVenta, string fechaInicio, string fechaFin)
+        public async Task<List<VentasCredito>> Historial(string buscarPor, string numeroVenta, string fechaInicio, string fechaFin, string customerName)
         {
             IQueryable<VentasCredito> query = _dbcontext.VentasCredito;
 
@@ -75,21 +75,45 @@ namespace SistemaVentaAngular.Repository.Implementacion
                 DateTime fech_Inicio = DateTime.ParseExact(fechaInicio, "dd/MM/yyyy", new CultureInfo("es-PE"));
                 DateTime fech_Fin = DateTime.ParseExact(fechaFin, "dd/MM/yyyy", new CultureInfo("es-PE"));
 
-                return query.Where(v =>
+                var result =  query.Where(v =>
                     v.FechaRegistro.Value.Date >= fech_Inicio.Date &&
                     v.FechaRegistro.Value.Date <= fech_Fin.Date
                 )
                 .Include(dv => dv.DetalleVentasCredito)
-                .ThenInclude(p => p.IdProductoNavigation)
+                    .ThenInclude(p => p.IdProductoNavigation)
                 .ToList();
+
+                if(!String.IsNullOrEmpty(customerName))
+                {
+                    result = result.FindAll(v => v.DetalleVentasCredito.Any(x => x.CustomerName == customerName));
+                }
+
+                result.ForEach(v =>
+                {
+                    v.customerName = v.DetalleVentasCredito != null && v.DetalleVentasCredito.Count > 0 ? v.DetalleVentasCredito.First().CustomerName : null;
+                });
+
+                return result;
 
             }
             else
             {
-                return query.Where(v => v.NumeroDocumento == numeroVenta)
+                var result = query.Where(v => v.NumeroDocumento == numeroVenta)
                   .Include(dv => dv.DetalleVentasCredito)
                   .ThenInclude(p => p.IdProductoNavigation)
                   .ToList();
+
+                if (!String.IsNullOrEmpty(customerName))
+                {
+                    result = result.FindAll(v => v.DetalleVentasCredito.Any(x => x.CustomerName == customerName));
+                }
+
+                result.ForEach(v =>
+                {
+                    v.customerName = v.DetalleVentasCredito != null && v.DetalleVentasCredito.Count > 0 ? v.DetalleVentasCredito.First().CustomerName : null;
+                });
+
+                return result;
             }
 
 
@@ -104,6 +128,29 @@ namespace SistemaVentaAngular.Repository.Implementacion
                 .ToListAsync();
 
             return listaResumen;
+        }
+
+        public async Task<VentasCredito> Update(VentasCredito entidad)
+        {
+            using (var transaction = _dbcontext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var ventasCredito = await _dbcontext.VentasCredito.FirstOrDefaultAsync(x=>x.IdVentasCredito == entidad.IdVentasCredito);
+                    if(ventasCredito != null)
+                    {
+                        ventasCredito.IsPaid = entidad.IsPaid;
+                        _dbcontext.VentasCredito.Update(ventasCredito);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+            }
+            return entidad;
         }
     }
 }
