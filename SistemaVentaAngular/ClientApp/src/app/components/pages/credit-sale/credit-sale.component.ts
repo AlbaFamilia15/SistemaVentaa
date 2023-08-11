@@ -86,6 +86,15 @@ export class CreditSaleComponent implements OnInit {
 
   onSubmitForm() {
 
+    if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
+      this._snackBar.open("Product stock is not available", "Oops", {
+        horizontalPosition: "center",
+        verticalPosition: "top",
+        duration: 3000
+      });
+      //return;
+    }
+
     //const _cantidad: number = parseFloat(this.cantidadML);
     const _cantidad: number = this.formGroup.value.cantidad;
     const _cantidadML: number = parseFloat(this.cantidadML);
