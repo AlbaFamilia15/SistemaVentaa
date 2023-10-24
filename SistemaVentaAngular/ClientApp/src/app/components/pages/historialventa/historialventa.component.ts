@@ -9,6 +9,7 @@ import { DialogDetalleVentaComponent } from '../modals/dialog-detalle-venta/dial
 import { VentaService } from '../../../services/venta.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
+import { DialogDeleteHistorialVentaComponent } from '../modals/dialog-delete-historialventa/dialog-delete-historialventa.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -119,5 +120,42 @@ export class HistorialventaComponent implements OnInit {
       disableClose: true,
       width: '700px',
     })
+  }
+
+  eliminarVenta(_venta: Venta) {
+    this.dialog.open(DialogDeleteHistorialVentaComponent, {
+      disableClose: true,
+      data: _venta
+    }).afterClosed().subscribe(result => {
+
+      if (result === "eliminar") {
+        this._ventaServicio.delete(_venta).subscribe({
+          next: (data) => {
+
+            if (data.status) {
+              this.mostrarAlerta("El venta fue eliminado", "Listo!")
+            } else {
+              this.mostrarAlerta("No se pudo eliminar el venta", "Error");
+            }
+
+          },
+          error: (e) => {
+          },
+          complete: () => {
+          }
+        })
+
+      }
+
+
+    
+    });
+  }
+  mostrarAlerta(mensaje: string, tipo: string) {
+    this._snackBar.open(mensaje, tipo, {
+      horizontalPosition: "end",
+      verticalPosition: "top",
+      duration: 3000
+    });
   }
 }

@@ -34,4 +34,10 @@ export class VentasCreditoService {
     return this.http.post<ResponseApi>(`${this.apiBase}update`, request, { headers: { 'Content-Type': 'application/json;charset=utf-8' } })
 
   }
+
+  delete(request: VentasCredito): Observable<ResponseApi> {
+
+    return this.http.post<ResponseApi>(`${this.apiBase}Delete`, request, { headers: { 'Content-Type': 'application/json;charset=utf-8' } })
+ 
+  }
 }

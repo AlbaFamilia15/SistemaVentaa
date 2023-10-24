@@ -35,7 +35,9 @@ export class DialogProductoComponent implements OnInit {
       stock: ['', Validators.required],
       precio: ['', Validators.required],
       precion: ['', Validators.required],
-      netPrice: ['',Validators.required]
+      netPrice: ['',Validators.required],
+      isCantidad: [false]
+
     })
 
 
@@ -78,7 +80,8 @@ export class DialogProductoComponent implements OnInit {
         stock: this.productoEditar.stock,
         precio: this.productoEditar.precio,
         precion: this.productoEditar.precio,
-        netPrice: this.productoEditar.netPrice
+        netPrice: this.productoEditar.netPrice,
+        isCantidad: this.productoEditar.isCantidad
       })
     }
   }
@@ -92,7 +95,8 @@ export class DialogProductoComponent implements OnInit {
       descripcionCategoria : "",
       precio: this.formProducto.value.precio,
       stock: this.formProducto.value.stock,
-      netPrice: this.formProducto.value.netPrice
+      netPrice: this.formProducto.value.netPrice,
+      isCantidad: this.formProducto.value.isCantidad
     }
 
 
