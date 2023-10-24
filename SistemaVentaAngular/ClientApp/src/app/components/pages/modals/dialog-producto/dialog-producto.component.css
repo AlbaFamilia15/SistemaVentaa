@@ -6,7 +6,3 @@ mat-form-field {
 form {
   width: 350px;
 }
-.checkbox-container {
-  display: contents;
-  /* align-items: right; */
-}

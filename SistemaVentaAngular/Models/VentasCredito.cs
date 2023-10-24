@@ -17,7 +17,6 @@ namespace SistemaVentaAngular.Models
         public bool IsPaid { get; set; }
         [NotMapped]
         public string? customerName { get; set; }
-        public bool isDelete { get; set; }
         public virtual ICollection<DetalleVentasCredito> DetalleVentasCredito { get; set; }
 
     }

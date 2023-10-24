@@ -10,6 +10,5 @@
         public string? Precio { get; set; }
         public int? cantidadML { get; set; }
         public decimal? NetPrice { get; set; }
-        public bool? isCantidad { get; set; }
     }
 }
