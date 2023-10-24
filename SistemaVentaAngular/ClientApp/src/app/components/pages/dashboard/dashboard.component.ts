@@ -2,18 +2,36 @@ import { Component, OnInit } from '@angular/core';
 
 import { Chart, registerables } from 'node_modules/chart.js';
 import { DashboardService } from '../../../services/dashboard.service';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import * as moment from 'moment';
 Chart.register(...registerables);
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+  ]
 })
 export class DashboardComponent implements OnInit {
   totalIngresos: string = "0";
   totalVentas: string = "0";
   totalProductos: string = "0";
-
+  filterValue: string = "Diario";
+  startDate = "";
+  endDate = "";
   constructor(
     private _dashboardServicio: DashboardService,
   ) {
@@ -22,30 +40,34 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.filterMethod();
+    // this._dashboardServicio.resumen().subscribe({
+    //   next: (data) => {
+    //     if (data.status) {
 
-    this._dashboardServicio.resumen().subscribe({
-      next: (data) => {
-        if (data.status) {
+    //       this.totalIngresos = data.value.totalIngresos;
+    //       this.totalVentas = data.value.totalVentas;
+    //       this.totalProductos = data.value.totalProductos;
 
-          this.totalIngresos = data.value.totalIngresos;
-          this.totalVentas = data.value.totalVentas;
-          this.totalProductos = data.value.totalProductos;
+    //       const arrayData: any[] = data.value.ventasUltimaSemana;
 
-          const arrayData: any[] = data.value.ventasUltimaSemana;
+    //       const labelTemp = arrayData.map((value) => value.fecha);
+    //       const dataTemp = arrayData.map((value) => value.total);
+    //       this.mostrarGrafico(labelTemp, dataTemp)
 
-          const labelTemp = arrayData.map((value) => value.fecha);
-          const dataTemp = arrayData.map((value) => value.total);
-          this.mostrarGrafico(labelTemp, dataTemp)
-
-        }
-      },
-      error: (e) => { },
-      complete: () => { }
-    })
+    //     }
+    //   },
+    //   error: (e) => { },
+    //   complete: () => { }
+    // })
 
   }
 
-  mostrarGrafico(labelsGrafico:any[],dataGrafico:any[]) {
+  mostrarGrafico(labelsGrafico: any[], dataGrafico: any[]) {
+    var chart = Chart.getChart('myChart'); 
+    if (chart) {
+      chart.destroy(); 
+    }
     const myChart = new Chart('myChart', {
       type: 'bar',
       data: {
@@ -74,5 +96,42 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onFilterChange(event: any) {
+ 
+    if (this.filterValue != 'Rangopersonalizado') {
+      this.filterMethod();
+    }
+    if(!!this.startDate && !!this.endDate){
+      this.filterMethod();
+    }
+  }
+  filterMethod() {
+    let startdate = '';
+    let enddate = '';
+    if (!!this.startDate) {
+      startdate = moment(this.startDate).format('DD/MM/YYYY')
+    }
+    if (!!this.endDate) {
+      enddate = moment(this.endDate).format('DD/MM/YYYY')
+    }
+    this._dashboardServicio.resumenFilter(this.filterValue, startdate, enddate).subscribe({
+      next: (data) => {
+        if (data.status) {
 
+          this.totalIngresos = data.value.totalIngresos;
+          this.totalVentas = data.value.totalVentas;
+          this.totalProductos = data.value.totalProductos;
+
+          const arrayData: any[] = data.value.ventasUltimaSemana;
+
+          const labelTemp = arrayData.map((value) => value.fecha);
+          const dataTemp = arrayData.map((value) => value.total);
+          this.mostrarGrafico(labelTemp, dataTemp)
+
+        }
+      },
+      error: (e) => { },
+      complete: () => { }
+    })
+  }
 }
