@@ -1,63 +1,62 @@
-<h2 mat-dialog-title>{{accion}} Producto</h2>
-<mat-dialog-content>
 
-  <form [formGroup]="formProducto">
-    <mat-grid-list cols="1" rowHeight="80px">
+  <h2 mat-dialog-title>{{accion}} Producto</h2>
+  <mat-dialog-content>
 
-      <mat-grid-tile>
-        <mat-form-field appearance="outline">
-          <mat-label>Nombre</mat-label>
-          <input matInput autocomplete="off" formControlName="nombre">
-          <mat-icon matSuffix>fit_screen</mat-icon>
-        </mat-form-field>
-      </mat-grid-tile>
+    <form [formGroup]="formProducto">
+      <mat-grid-list cols="1" rowHeight="80px">
 
-      <mat-grid-tile>
-        <mat-form-field appearance="outline">
-          <mat-label>Categoria</mat-label>
-          <mat-select formControlName="idCategoria">
-            <mat-option *ngFor="let item of listaCategorias" [value]="item.idCategoria">
-              {{item.descripcion}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput autocomplete="off" formControlName="nombre">
+            <mat-icon matSuffix>fit_screen</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
 
-
-      <mat-grid-tile>
-        <mat-form-field appearance="outline">
-          <mat-label>Stock</mat-label>
-          <input matInput autocomplete="off" formControlName="stock" type="number">
-          <mat-icon matSuffix>edit_square</mat-icon>
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-form-field appearance="outline">
-          <mat-label>Precio</mat-label>
-          <input matInput autocomplete="off" formControlName="precio" type="text">
-          <mat-icon matSuffix>attach_money</mat-icon>
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-form-field appearance="outline">
-          <mat-label>Precio Neto</mat-label>
-          <input matInput autocomplete="off" formControlName="precion" type="text">
-          <mat-icon matSuffix>attach_money</mat-icon>
-        </mat-form-field>
-      </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <mat-select formControlName="idCategoria">
+              <mat-option *ngFor="let item of listaCategorias" [value]="item.idCategoria">
+                {{item.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
 
 
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Stock</mat-label>
+            <input matInput autocomplete="off" formControlName="stock" type="number">
+            <mat-icon matSuffix>edit_square</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
 
-      <!--<mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Precio</mat-label>
+            <input matInput autocomplete="off" formControlName="precio" type="text">
+            <mat-icon matSuffix>attach_money</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Precio Neto</mat-label>
+            <input matInput autocomplete="off" formControlName="precion" type="text">
+            <mat-icon matSuffix>attach_money</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!--<mat-grid-tile>
     <mat-form-field appearance="outline">
       <mat-label>Existencia MN</mat-label>
       <input matInput autocomplete="off" formControlName="Existenciamn" type="text">
       <mat-icon matSuffix>edit_square</mat-icon>
     </mat-form-field>
   </mat-grid-tile>-->
-      <!--<mat-grid-tile>
+        <!--<mat-grid-tile>
     <mat-form-field appearance="outline">
       <mat-label>Precio Regular</mat-label>
       <mat-select formControlName="idCategoria">
@@ -69,29 +68,26 @@
     </mat-form-field>
   </mat-grid-tile>-->
 
-      <mat-grid-tile>
-        <mat-form-field appearance="outline">
-          <mat-label>NetPrice</mat-label>
-          <input matInput autocomplete="off" formControlName="netPrice" type="number">
-          <mat-icon matSuffix>edit_square</mat-icon>
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <div class="checkbox-container">
-          <mat-label>Show Candidad</mat-label>
-          <mat-checkbox formControlName="isCantidad"  style="margin-left: 5%;"  color="primary"></mat-checkbox>
-        </div>
-      </mat-grid-tile>
-
-    </mat-grid-list>
-  </form>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>NetPrice</mat-label>
+            <input matInput autocomplete="off" formControlName="netPrice" type="number">
+            <mat-icon matSuffix>edit_square</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
 
 
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-raised-button mat-dialog-close>Volver</button>
-  <button mat-raised-button color="primary" [disabled]="formProducto.invalid" (click)="agregarEditarProducto()">
-    {{accionBoton}}
-  </button>
-</mat-dialog-actions>
+      </mat-grid-list>
+    </form>
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>Volver</button>
+    <button mat-raised-button
+            color="primary"
+            [disabled]="formProducto.invalid"
+            (click)="agregarEditarProducto()">
+      {{accionBoton}}
+    </button>
+  </mat-dialog-actions>

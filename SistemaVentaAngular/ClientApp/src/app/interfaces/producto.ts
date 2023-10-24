@@ -6,5 +6,4 @@ export interface Producto {
   stock: number,
   precio:string,
   netPrice: number;
-  isCantidad: boolean;
 }

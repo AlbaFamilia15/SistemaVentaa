@@ -2,14 +2,13 @@
 using SistemaVentaAngular.Models;
 using SistemaVentaAngular.Repository.Contratos;
 using System.Globalization;
-using System.Linq.Expressions;
 
 namespace SistemaVentaAngular.Repository.Implementacion
 {
     public class VentaRepositorio : IVentaRepositorio
     {
         private readonly DBVentaAngularContext _dbcontext;
-        public VentaRepositorio(DBVentaAngularContext context)
+        public VentaRepositorio(DBVentaAngularContext context) 
         {
             _dbcontext = context;
         }
@@ -66,10 +65,10 @@ namespace SistemaVentaAngular.Repository.Implementacion
             return VentaGenerada;
         }
 
-        public async Task<List<Venta>> Historial(string buscarPor, string numeroVenta, string fechaInicio, string fechaFin)
+        public async Task<List<Venta>> Historial(string buscarPor,string numeroVenta, string fechaInicio, string fechaFin)
         {
-            IQueryable<Venta> query = _dbcontext.Venta;
-
+            IQueryable<Venta> query =  _dbcontext.Venta;
+          
             if (buscarPor == "fecha")
             {
 
@@ -85,15 +84,14 @@ namespace SistemaVentaAngular.Repository.Implementacion
                 .ToList();
 
             }
-            else
-            {
+            else {
                 return query.Where(v => v.NumeroDocumento == numeroVenta)
                   .Include(dv => dv.DetalleVenta)
                   .ThenInclude(p => p.IdProductoNavigation)
                   .ToList();
             }
 
-
+            
         }
 
         public async Task<List<DetalleVenta>> Reporte(DateTime FechaInicio, DateTime FechaFin)
@@ -106,22 +104,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
 
             return listaResumen;
         }
-        public async Task<Venta> GetByIdAsync(string id)
-        {
-            return await _dbcontext.Venta.Where(e => e.NumeroDocumento == id)
-                .FirstOrDefaultAsync();
-        }
 
-        public async Task<bool> DeleteAsync(string id)
-        {
-            var entity = await _dbcontext.Venta.Where(x => x.NumeroDocumento.Equals(id)).FirstOrDefaultAsync();
-            if (entity != null)
-            {
-                entity.isDelete = true;
-                await _dbcontext.SaveChangesAsync();
-                return true;
-            }
-            return false;
-        }
+
     }
 }

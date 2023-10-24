@@ -15,7 +15,7 @@ namespace SistemaVentaAngular.Models
         public string? TipoPago { get; set; }
         public DateTime? FechaRegistro { get; set; }
         public decimal? Total { get; set; }
-        public bool? isDelete { get; set; }  
+
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
     }
 }

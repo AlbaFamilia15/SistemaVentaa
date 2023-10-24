@@ -19,7 +19,6 @@ namespace SistemaVentaAngular.Models
         public DateTime? FechaRegistro { get; set; }
         public int? cantidadML { get; set; }
         public decimal? NetPrice { get; set; }
-        public bool? isCantidad { get; set; }
 
         public virtual Categoria? IdCategoriaNavigation { get; set; }
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }

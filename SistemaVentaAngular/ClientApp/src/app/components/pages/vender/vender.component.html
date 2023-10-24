@@ -51,7 +51,7 @@
 
         <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">
           <mat-label>Cantidad ML</mat-label>
-          <mat-select [disabled]="!checkBoxValue" [(value)]="cantidadML">
+          <mat-select [(value)]="cantidadML">
             <mat-option value="5">05ml</mat-option>
             <mat-option value="10">10ml</mat-option>
             <mat-option value="15">15ml</mat-option>
@@ -86,7 +86,7 @@
         <!-- Cantidad ML Column -->
         <ng-container matColumnDef="cantidadML">
           <th mat-header-cell *matHeaderCellDef> Cantidad ML </th>
-          <td mat-cell *matCellDef="let element"> {{!element.cantidadML ? 0 : element.cantidadML}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.cantidadML}} </td>
         </ng-container>
 
         <!-- Cantidad Column -->

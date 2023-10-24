@@ -29,9 +29,7 @@ export class CreditSaleComponent implements OnInit {
   formGroup: FormGroup;
   displayedColumns: string[] = ['producto', 'cantidad', 'cantidadML', 'precio', 'total', 'customerName', 'accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-  // cantidadML: string = "5";
-  cantidadML: string = "";
-  checkBoxValue: boolean = false;
+  cantidadML: string = "5";
 
   constructor(
     private fb: FormBuilder,
@@ -84,13 +82,10 @@ export class CreditSaleComponent implements OnInit {
 
   productoSeleccionado(event: any) {
     this.agregarProducto = event.option.value;
-    this.checkBoxValue = event.option.value.isCantidad ? true : false
-    this.cantidadML = "";
   }
 
   onSubmitForm() {
-    this.checkBoxValue = false;
-    this.cantidadML = "";
+
     if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
       this._snackBar.open("Product stock is not available", "Oops", {
         horizontalPosition: "center",
