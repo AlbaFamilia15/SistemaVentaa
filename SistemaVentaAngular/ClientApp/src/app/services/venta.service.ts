@@ -28,4 +28,9 @@ export class VentaService {
     return this.http.get<ResponseApi>(`${this.apiBase}Reporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
 
   }
+  delete(request: Venta): Observable<ResponseApi> {
+
+    return this.http.post<ResponseApi>(`${this.apiBase}Delete`, request, { headers: { 'Content-Type': 'application/json;charset=utf-8' } })
+ 
+  }
 }

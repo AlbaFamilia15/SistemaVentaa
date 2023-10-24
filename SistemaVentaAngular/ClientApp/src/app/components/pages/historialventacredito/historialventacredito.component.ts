@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { DialogDetalleVentacreditoComponent } from '../modals/dialog-detalle-ventacredito/dialog-detalle-ventacredito.component';
 import { VentasCredito } from '../../../interfaces/ventas-credito';
 import { VentasCreditoService } from '../../../services/ventas-credito.service';
+import { DialogDeleteHistorialVentaCreditoComponent } from '../modals/dialog-delete-historialventacredito/dialog-delete-historialventacredito.component';
 
 
 export const MY_DATE_FORMATS = {
@@ -141,5 +142,37 @@ export class HistorialventacreditoComponent implements OnInit {
       }
     })
   }
+  eliminarVenta(_venta: VentasCredito) {
+    this.dialog.open(DialogDeleteHistorialVentaCreditoComponent, {
+      disableClose: true,
+      data: _venta
+    }).afterClosed().subscribe(result => {
 
+      if (result === "eliminar") {
+        this._ventaCreditoServicio.delete(_venta).subscribe({
+          next: (data) => {
+
+            if (data.status) {
+              this.mostrarAlerta("El venta credito fue eliminado", "Listo!")
+            } else {
+              this.mostrarAlerta("No se pudo eliminar el venta credito", "Error");
+            }
+
+          },
+          error: (e) => {
+          },
+          complete: () => {
+          }
+        })
+      }
+    });
+  }
+
+  mostrarAlerta(mensaje: string, tipo: string) {
+    this._snackBar.open(mensaje, tipo, {
+      horizontalPosition: "end",
+      verticalPosition: "top",
+      duration: 3000
+    });
+  }
 }

@@ -75,7 +75,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
                 DateTime fech_Inicio = DateTime.ParseExact(fechaInicio, "dd/MM/yyyy", new CultureInfo("es-PE"));
                 DateTime fech_Fin = DateTime.ParseExact(fechaFin, "dd/MM/yyyy", new CultureInfo("es-PE"));
 
-                var result =  query.Where(v =>
+                var result = query.Where(v =>
                     v.FechaRegistro.Value.Date >= fech_Inicio.Date &&
                     v.FechaRegistro.Value.Date <= fech_Fin.Date
                 )
@@ -83,7 +83,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
                     .ThenInclude(p => p.IdProductoNavigation)
                 .ToList();
 
-                if(!String.IsNullOrEmpty(customerName))
+                if (!String.IsNullOrEmpty(customerName))
                 {
                     result = result.FindAll(v => v.DetalleVentasCredito.Any(x => x.CustomerName == customerName));
                 }
@@ -136,8 +136,8 @@ namespace SistemaVentaAngular.Repository.Implementacion
             {
                 try
                 {
-                    var ventasCredito = await _dbcontext.VentasCredito.FirstOrDefaultAsync(x=>x.IdVentasCredito == entidad.IdVentasCredito);
-                    if(ventasCredito != null)
+                    var ventasCredito = await _dbcontext.VentasCredito.FirstOrDefaultAsync(x => x.IdVentasCredito == entidad.IdVentasCredito);
+                    if (ventasCredito != null)
                     {
                         ventasCredito.IsPaid = entidad.IsPaid;
                         _dbcontext.VentasCredito.Update(ventasCredito);
@@ -152,5 +152,23 @@ namespace SistemaVentaAngular.Repository.Implementacion
             }
             return entidad;
         }
+        public async Task<VentasCredito> GetByIdAsync(string id)
+        {
+            return await _dbcontext.VentasCredito.Where(e => e.NumeroDocumento == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            var entity = await _dbcontext.VentasCredito.Where(x => x.NumeroDocumento.Equals(id)).FirstOrDefaultAsync();
+            if (entity != null)
+            {
+                entity.isDelete = true;
+                await _dbcontext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }
+

@@ -9,5 +9,7 @@ namespace SistemaVentaAngular.Repository.Contratos
         Task<List<VentasCredito>> Historial(string buscarPor, string numeroVenta, string fechaInicio, string fechaFin, string customerName);
         Task<List<DetalleVentasCredito>> Reporte(DateTime FechaInicio, DateTime FechaFin);
         Task<VentasCredito> Update(VentasCredito entidad);
+        Task<VentasCredito> GetByIdAsync(string id);
+        Task<bool> DeleteAsync(string id);
     }
 }
