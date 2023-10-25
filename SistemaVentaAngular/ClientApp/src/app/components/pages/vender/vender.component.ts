@@ -22,7 +22,7 @@ export class VenderComponent implements OnInit {
   options: Producto[] = [];
   ELEMENT_DATA: DetalleVenta[] = [];
   deshabilitado: boolean = false;
-
+  checkBoxValue: boolean = false;
   filteredOptions!: Producto[];
   agregarProducto!: Producto;
   tipodePago: string = "Efectivo";
@@ -31,7 +31,8 @@ export class VenderComponent implements OnInit {
   formGroup: FormGroup;
   displayedColumns: string[] = ['producto', 'cantidad', 'cantidadML' ,'precio', 'total','accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-  cantidadML: number = 5;
+  // cantidadML: number = 5;
+  cantidadML: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -84,10 +85,13 @@ export class VenderComponent implements OnInit {
 
   productoSeleccionado(event: any) {
     this.agregarProducto = event.option.value;
+    this.checkBoxValue = event.option.value.isCantidad ? true : false;
+    this.cantidadML = 0;
   }
 
   onSubmitForm() {
-
+    this.checkBoxValue = false;
+    this.cantidadML = 0;
     if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
       this._snackBar.open("Product stock is not available", "Oops", {
         horizontalPosition: "center",
@@ -141,7 +145,8 @@ export class VenderComponent implements OnInit {
       const ventaDto: Venta = {
         tipoPago: this.tipodePago,
         totalTexto: String(this.totalPagar.toFixed(2)),
-        detalleVenta: this.ELEMENT_DATA
+        detalleVenta: this.ELEMENT_DATA,
+        numeroDocumento: ''
       }
 
       this._ventaServicio.registrar(ventaDto).subscribe({

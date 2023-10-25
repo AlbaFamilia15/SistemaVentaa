@@ -9,6 +9,9 @@ import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ReusableModule } from './components/reusable/reusable.module';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
 
@@ -25,6 +28,9 @@ export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
     BrowserAnimationsModule,
 
     ReusableModule,
+    MatFormFieldModule, 
+    MatDatepickerModule, 
+    MatNativeDateModule,
     NgxMaskModule.forRoot()
   ],
   providers: [],

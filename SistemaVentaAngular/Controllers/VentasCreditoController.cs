@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaVentaAngular.DTOs;
 using SistemaVentaAngular.Models;
 using SistemaVentaAngular.Repository.Contratos;
+using SistemaVentaAngular.Repository.Implementacion;
 using SistemaVentaAngular.Utilidades;
 using System.Globalization;
 
@@ -136,6 +137,31 @@ namespace SistemaVentaAngular.Controllers
             catch (Exception ex)
             {
                 _response = new Response<VentasCreditoDTO>() { status = false, msg = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, _response);
+            }
+        }
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<IActionResult> Delete([FromBody] VentasCreditoDTO request)
+        {
+            Response<string> _response = new Response<string>();
+            try
+            {
+                var entity = await _ventasCreditoRepository.GetByIdAsync(request.NumeroDocumento);
+                if (entity != null)
+                {
+                    bool respuesta = await _ventasCreditoRepository.DeleteAsync(request.NumeroDocumento);
+                    if (respuesta)
+                        _response = new Response<string>() { status = true, msg = "ok", value = "" };
+                    else
+                        _response = new Response<string>() { status = false, msg = "No se pudo eliminar el vento credito", value = "" };
+                }
+
+                return StatusCode(StatusCodes.Status200OK, _response);
+            }
+            catch (Exception ex)
+            {
+                _response = new Response<string>() { status = false, msg = ex.Message };
                 return StatusCode(StatusCodes.Status500InternalServerError, _response);
             }
         }
