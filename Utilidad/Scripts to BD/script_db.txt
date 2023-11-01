@@ -118,3 +118,10 @@ GO
 
 ALTER TABLE [dbo].[Producto] ADD NetPrice Decimal(10,2) NULL
 GO
+
+
+ALTER TABLE [dbo].[Producto] ADD image varchar(max)
+GO
+
+ALTER TABLE [dbo].[Producto] ADD imagePath varchar(max)
+GO

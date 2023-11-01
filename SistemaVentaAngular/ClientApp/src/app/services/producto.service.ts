@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Producto } from '../interfaces/producto';
 import { ResponseApi } from '../interfaces/response-api';
@@ -35,5 +35,11 @@ export class ProductoService {
 
     return this.http.delete<ResponseApi>(`${this.apiBase}Eliminar/${id}`);
 
+  }
+  Upload(file: File,idProducto: number) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const headers = new HttpHeaders().append('Content-Disposition','multipart/form-data')
+    return this.http.post(`${this.apiBase}Upload/${idProducto}`, formData, {headers})
   }
 }

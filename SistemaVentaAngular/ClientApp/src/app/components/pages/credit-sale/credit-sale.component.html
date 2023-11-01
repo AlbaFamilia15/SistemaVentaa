@@ -74,7 +74,7 @@
 
         </mat-grid-tile>
         <mat-grid-tile style="text-align:end">
-          <button mat-raised-button color="primary" style="width: 80%;">Total: S/. {{totalPagar.toFixed(2)}}</button>
+          <button mat-raised-button color="primary" style="width: 80%;">Total: S/. {{totalPagar ?  'RD$ ' + totalPagar.toFixed(2)  : totalPagar.toFixed(2)}}</button>
         </mat-grid-tile>
       </mat-grid-list>
     </form>
@@ -103,13 +103,13 @@
         <!-- Precio Column -->
         <ng-container matColumnDef="precio">
           <th mat-header-cell *matHeaderCellDef> Precio </th>
-          <td mat-cell *matCellDef="let element"> {{element.precioTexto}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.precioTexto ?  'RD$ ' + element.precioTexto : element.precioTexto}} </td>
         </ng-container>
 
         <!-- Total Column -->
         <ng-container matColumnDef="total">
           <th mat-header-cell *matHeaderCellDef> Total </th>
-          <td mat-cell *matCellDef="let element"> {{element.totalTexto}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.totalTexto ? 'RD$ ' + element.totalTexto  : element.totalTexto}} </td>
         </ng-container>
 
         <!-- Total Column -->

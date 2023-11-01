@@ -63,13 +63,13 @@
     <!-- Weight Column -->
     <ng-container matColumnDef="precio">
       <th mat-header-cell *matHeaderCellDef> Precio </th>
-      <td mat-cell *matCellDef="let element"> {{element.precioTexto}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.precioTexto ? 'RD$ ' + element.precioTexto : element.precioTexto}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="total">
       <th mat-header-cell *matHeaderCellDef> Total </th>
-      <td mat-cell *matCellDef="let element"> {{element.totalTexto}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.totalTexto ? 'RD$ ' + element.totalTexto : element.totalTexto}} </td>
     </ng-container>
 
 

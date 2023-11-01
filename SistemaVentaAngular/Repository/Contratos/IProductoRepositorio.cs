@@ -10,5 +10,6 @@ namespace SistemaVentaAngular.Repository.Contratos
         Task<bool> Editar(Producto entidad);
         Task<bool> Eliminar(Producto entidad);
         Task<IQueryable<Producto>> Consultar(Expression<Func<Producto, bool>> filtro = null);
+        Task<bool> Upload(int idProducto, string fileName);
     }
 }

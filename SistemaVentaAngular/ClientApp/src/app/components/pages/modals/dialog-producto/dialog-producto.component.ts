@@ -6,6 +6,7 @@ import { Categoria } from '../../../../interfaces/categoria';
 import { Producto } from '../../../../interfaces/producto';
 import { CategoriaService } from '../../../../services/categoria.service';
 import { ProductoService } from '../../../../services/producto.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dialog-producto',
@@ -17,9 +18,8 @@ export class DialogProductoComponent implements OnInit {
   accion: string = "Agregar"
   accionBoton: string = "Guardar";
   listaCategorias: Categoria[] = [];
-
-
-
+  selectedFile: File | null = null;
+  imagePath: any = "";
 
   constructor(
     private dialogoReferencia: MatDialogRef<DialogProductoComponent>,
@@ -27,7 +27,8 @@ export class DialogProductoComponent implements OnInit {
     private fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private _categoriaServicio: CategoriaService,
-    private _productoServicio: ProductoService
+    private _productoServicio: ProductoService,
+    private _sanitizer: DomSanitizer
   ) {
     this.formProducto = this.fb.group({
       nombre: ['', Validators.required],
@@ -35,9 +36,9 @@ export class DialogProductoComponent implements OnInit {
       stock: ['', Validators.required],
       precio: ['', Validators.required],
       precion: ['', Validators.required],
-      netPrice: ['',Validators.required],
-      isCantidad: [false]
-
+      netPrice: ['', Validators.required],
+      isCantidad: [false],
+      image: ['']
     })
 
 
@@ -74,6 +75,7 @@ export class DialogProductoComponent implements OnInit {
 
     if (this.productoEditar) {
       console.log(this.productoEditar)
+      this.imagePath = this.productoEditar.imagePath
       this.formProducto.patchValue({
         nombre: this.productoEditar.nombre,
         idCategoria: String(this.productoEditar.idCategoria),
@@ -81,18 +83,24 @@ export class DialogProductoComponent implements OnInit {
         precio: this.productoEditar.precio,
         precion: this.productoEditar.precio,
         netPrice: this.productoEditar.netPrice,
-        isCantidad: this.productoEditar.isCantidad
+        isCantidad: this.productoEditar.isCantidad,
+        image: this.productoEditar.image
       })
     }
   }
 
   agregarEditarProducto() {
-
+    const formData = new FormData();
+    if (this.selectedFile) {
+      let idProducto = this.productoEditar == null ? 0 : this.productoEditar.idProducto;
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+      formData.append('idProducto', idProducto.toString())
+    }
     const _producto: Producto = {
       idProducto: this.productoEditar == null ? 0 : this.productoEditar.idProducto,
       nombre: this.formProducto.value.nombre,
       idCategoria: this.formProducto.value.idCategoria,
-      descripcionCategoria : "",
+      descripcionCategoria: "",
       precio: this.formProducto.value.precio,
       stock: this.formProducto.value.stock,
       netPrice: this.formProducto.value.netPrice,
@@ -107,8 +115,19 @@ export class DialogProductoComponent implements OnInit {
         next: (data) => {
 
           if (data.status) {
-            this.mostrarAlerta("El producto fue editado", "Exito");
-            this.dialogoReferencia.close('editado')
+
+            if (this.selectedFile) {
+              this._productoServicio.Upload(this.selectedFile, this.productoEditar.idProducto).subscribe({
+                next: (data) => {
+                  this.mostrarAlerta("El producto fue editado", "Exito");
+                  this.dialogoReferencia.close('editado')
+                }
+              })
+            }
+            else {
+              this.mostrarAlerta("El producto fue editado", "Exito");
+              this.dialogoReferencia.close('editado')
+            }
           } else {
             this.mostrarAlerta("No se pudo editar el producto", "Error");
           }
@@ -128,8 +147,18 @@ export class DialogProductoComponent implements OnInit {
         next: (data) => {
 
           if (data.status) {
-            this.mostrarAlerta("El producto fue registrado", "Exito");
-            this.dialogoReferencia.close('agregado')
+            if (this.selectedFile) {
+              this._productoServicio.Upload(this.selectedFile, data.value.idProducto).subscribe({
+                next: (data) => {
+                  this.mostrarAlerta("El producto fue registrado", "Exito");
+                  this.dialogoReferencia.close('agregado')
+
+                }
+              })
+            } else {
+              this.mostrarAlerta("El producto fue registrado", "Exito");
+              this.dialogoReferencia.close('agregado')
+            }
           } else {
             this.mostrarAlerta("No se pudo registrar el producto", "Error");
           }
@@ -153,4 +182,15 @@ export class DialogProductoComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = <File>event.target.files[0];
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePath = e.target.result.split(',')[1];
+      };
+
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
 }

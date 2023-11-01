@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,9 @@ using SistemaVentaAngular.DTOs;
 using SistemaVentaAngular.Models;
 using SistemaVentaAngular.Repository.Contratos;
 using SistemaVentaAngular.Utilidades;
+using System.Net.Http.Headers;
+using System.IO;
+using static System.Net.WebRequestMethods;
 
 namespace SistemaVentaAngular.Controllers
 {
@@ -36,7 +40,27 @@ namespace SistemaVentaAngular.Controllers
                 ListaProductos = _mapper.Map<List<ProductoDTO>>(query.ToList());
 
                 if (ListaProductos.Count > 0)
+                {
+                    foreach (var producto in ListaProductos)
+                    {
+                        if (producto.imagePath != null)
+                        {
+                            if (System.IO.File.Exists(producto.imagePath))
+                            {
+                                byte[] fileData = System.IO.File.ReadAllBytes(producto.imagePath);
+
+                                string base64String = Convert.ToBase64String(fileData);
+                                producto.imagePath = base64String;
+                            }
+                            else
+                            {
+                                producto.imagePath = string.Empty;
+                            }
+                         
+                        }
+                    }
                     _response = new Response<List<ProductoDTO>>() { status = true, msg = "ok", value = ListaProductos };
+                }
                 else
                     _response = new Response<List<ProductoDTO>>() { status = false, msg = "", value = null };
 
@@ -146,8 +170,54 @@ namespace SistemaVentaAngular.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, _response);
             }
         }
+        [HttpPost]
+        [Route("Upload/{idProducto:int}")]
+        public async Task<IActionResult> Upload(IFormFile file, int idProducto)
+        {
+            Response<string> _response = new Response<string>();
 
+            try
+            {
+                string currentDirectory = Environment.CurrentDirectory;
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(currentDirectory, folderName);
 
+                if (file.Length > 0)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+                    string filePath = Path.Combine(pathToSave, file.FileName);
+                    bool exists = System.IO.Directory.Exists(pathToSave);
 
+                    if (!exists)
+                        System.IO.Directory.CreateDirectory(pathToSave);
+                    using (Stream fileStream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    /*Get data by ID */
+                    Producto _productoEliminar = await _productoRepositorio.Obtener(u => u.IdProducto == idProducto);
+                    if (_productoEliminar != null)
+                    {
+                        _productoEliminar.image = fileName;
+                        _productoEliminar.imagePath = filePath;
+                    }
+                    /* Update the data */
+                    bool respuesta = await _productoRepositorio.Editar(_productoEliminar);
+                    if (respuesta)
+                        _response = new Response<string>() { status = true, msg = "ok", value = "" };
+                    else
+                        _response = new Response<string>() { status = false, msg = "", value = "" };
+                }
+
+                return StatusCode(StatusCodes.Status200OK, _response);
+            }
+            catch (Exception ex)
+            {
+                _response = new Response<string>() { status = false, msg = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, _response);
+            }
+        }
     }
 }

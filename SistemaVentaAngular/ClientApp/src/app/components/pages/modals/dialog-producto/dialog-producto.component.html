@@ -73,14 +73,27 @@
         <mat-form-field appearance="outline">
           <mat-label>NetPrice</mat-label>
           <input matInput autocomplete="off" formControlName="netPrice" type="number">
-          <mat-icon matSuffix>edit_square</mat-icon>
+          <mat-icon matSuffix>attach_money</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
+        <div class="custom-mat-form-field">
+          <mat-label>Select a photo</mat-label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          <mat-icon matSuffix>attach_file</mat-icon>
+        </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="imagePath">
+        <div>
+          <img src="data:image/png;base64,{{ imagePath }}" height="80px" width="300px" />
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
         <div class="checkbox-container">
           <mat-label>Show Candidad</mat-label>
-          <mat-checkbox formControlName="isCantidad"  style="margin-left: 5%;"  color="primary"></mat-checkbox>
+          <mat-checkbox formControlName="isCantidad" style="margin-left: 5%;" color="primary"></mat-checkbox>
         </div>
       </mat-grid-tile>
 

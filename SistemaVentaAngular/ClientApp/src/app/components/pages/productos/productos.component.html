@@ -39,7 +39,7 @@
 
         <ng-container matColumnDef="precio">
           <th mat-header-cell *matHeaderCellDef> Precio </th>
-          <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.precio ? 'RD$ ' + element.precio : ''}} </td>
         </ng-container>
 
 
@@ -52,7 +52,7 @@
         <!-- Weight Column -->
         <ng-container matColumnDef="netPrice">
           <th mat-header-cell *matHeaderCellDef> NetPrice </th>
-          <td mat-cell *matCellDef="let element"> {{element.netPrice}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.netPrice ? 'RD$ ' + element.netPrice : ''}} </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones">

@@ -7,4 +7,6 @@ export interface Producto {
   precio:string,
   netPrice: number;
   isCantidad: boolean;
+  image?: string;
+  imagePath?: string;
 }

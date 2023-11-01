@@ -10,3 +10,31 @@ form {
   display: contents;
   /* align-items: right; */
 }
+.custom-mat-form-field {
+  /* display: flex; */
+  width: 100%;
+  margin: 10px 0px;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.custom-mat-form-field mat-label {
+  font-size: 14px;
+  /* color: #333; */
+  margin-bottom: 4px;
+}
+
+.custom-mat-form-field input {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.custom-mat-form-field mat-icon {
+  /* color: #333; */
+  font-size: 20px;
+    margin-top: 0px;
+    margin-left: 52px;
+}

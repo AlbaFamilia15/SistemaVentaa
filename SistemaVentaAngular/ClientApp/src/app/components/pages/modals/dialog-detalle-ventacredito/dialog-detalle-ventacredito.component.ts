@@ -24,7 +24,7 @@ export class DialogDetalleVentacreditoComponent implements OnInit {
     this.fechaRegistro = _venta.fechaRegistro;
     this.numero = _venta.numeroDocumento;
     this.tipoPago = _venta.tipoPago;
-    this.total = _venta.totalTexto;
+    this.total = _venta.totalTexto ? 'RD$ ' + _venta.totalTexto : _venta.totalTexto;
     this.detalleVentasCredito = _venta.detalleVentasCredito == null ? [
       { idProducto: 1, descripcionProducto: "", cantidad: 0, cantidadML: 0, precioTexto: "0", totalTexto: "0", customerName: "" },
     ] : _venta.detalleVentasCredito;
