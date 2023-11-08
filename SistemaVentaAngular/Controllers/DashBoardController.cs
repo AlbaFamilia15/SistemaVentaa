@@ -70,7 +70,9 @@ namespace SistemaVentaAngular.Controllers
                 DashBoardDTO vmDashboard = new DashBoardDTO();
 
                 vmDashboard.TotalVentas = await _dashboardRepositorio.TotalVentasUltimaSemanaFilter(filtertype,startdate,enddate);
+                vmDashboard.TotalVentasCredito = await _dashboardRepositorio.TotalVentasCreditoFilter(filtertype, startdate, enddate);
                 vmDashboard.TotalIngresos = await _dashboardRepositorio.TotalIngresosUltimaSemanaFilter(filtertype, startdate, enddate);
+                vmDashboard.TotalPaidIngresos = await _dashboardRepositorio.TotalPiadIngresosUltimaSemanaFilter(filtertype, startdate, enddate);
                 vmDashboard.TotalProductos = await _dashboardRepositorio.TotalProductosFilter(filtertype, startdate, enddate);
 
                 List<VentasSemanaDTO> listaVentasSemana = new List<VentasSemanaDTO>();

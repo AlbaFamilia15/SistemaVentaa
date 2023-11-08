@@ -125,3 +125,6 @@ GO
 
 ALTER TABLE [dbo].[Producto] ADD imagePath varchar(max)
 GO
+
+ALTER TABLE VentasCredito ADD paidFecha datetime 
+GO

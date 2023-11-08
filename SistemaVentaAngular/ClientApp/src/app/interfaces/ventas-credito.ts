@@ -8,5 +8,6 @@ export interface VentasCredito {
   tipoPago?: string,
   totalTexto?: string,
   detalleVentasCredito?: DetalleVentasCredito[],
-  isPaid: boolean
+  isPaid: boolean,
+  paidFecha?: string,
 }

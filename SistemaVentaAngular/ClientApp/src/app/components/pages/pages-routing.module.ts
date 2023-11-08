@@ -10,20 +10,20 @@ import { ReportesComponent } from './reportes/reportes.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { VenderComponent } from './vender/vender.component';
 import { VentaCreditoReporteComponent } from './venta-credito-reporte/venta-credito-reporte.component';
-
+import { AuthGuard } from 'src/app/services/AuthGuard.service';
 
 const routes: Routes = [
   {
     path: '', component: PagesComponent, children: [
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'usuarios', component: UsuariosComponent },
-      { path: 'productos', component: ProductosComponent },
-      { path: 'vender', component: VenderComponent },
-      { path: 'historialventas', component: HistorialventaComponent },
-      { path: 'reportes', component: ReportesComponent },
-      { path: 'credit-sales', component: CreditSaleComponent },
-      { path: 'credit-sales-history', component: HistorialventacreditoComponent },
-      { path: 'credit-sales-reportes', component: VentaCreditoReporteComponent }
+      { path: 'usuarios', component: UsuariosComponent,canActivate: [AuthGuard] },
+      { path: 'productos', component: ProductosComponent, canActivate: [AuthGuard] },
+      { path: 'vender', component: VenderComponent},
+      { path: 'historialventas', component: HistorialventaComponent},
+      { path: 'reportes', component: ReportesComponent, canActivate: [AuthGuard]},
+      { path: 'credit-sales', component: CreditSaleComponent},
+      { path: 'credit-sales-history', component: HistorialventacreditoComponent},
+      { path: 'credit-sales-reportes', component: VentaCreditoReporteComponent,canActivate: [AuthGuard]}
     ]
   }
 ];

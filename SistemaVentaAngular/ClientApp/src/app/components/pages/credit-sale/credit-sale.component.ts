@@ -32,6 +32,7 @@ export class CreditSaleComponent implements OnInit {
   // cantidadML: string = "5";
   cantidadML: string = "";
   checkBoxValue: boolean = false;
+  isNetPrice: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -46,7 +47,8 @@ export class CreditSaleComponent implements OnInit {
       producto: ['', Validators.required],
       cantidad: ['', Validators.required],
       cantidadML: [''],
-      customerName: ['', Validators.required]
+      customerName: ['', Validators.required],
+      offerPrice: [false]
     })
 
     this.formGroup.get('producto')?.valueChanges.subscribe(value => {
@@ -85,11 +87,19 @@ export class CreditSaleComponent implements OnInit {
   productoSeleccionado(event: any) {
     this.agregarProducto = event.option.value;
     this.checkBoxValue = event.option.value.isCantidad ? true : false
+    this.isNetPrice = this.agregarProducto.netPrice != null ? true : false;
+    if(!this.isNetPrice){
+      this.formGroup.controls['offerPrice'].setValue(false) 
+    }
     this.cantidadML = "";
   }
 
   onSubmitForm() {
     this.checkBoxValue = false;
+    let Price = this.agregarProducto.precio;
+    this.agregarProducto.precio = this.formGroup.controls['offerPrice'].value ? this.agregarProducto.netPrice.toString() : this.agregarProducto.precio
+    this.formGroup.controls['offerPrice'].setValue(false) 
+    this.isNetPrice = false;
     this.cantidadML = "";
     if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
       this._snackBar.open("Product stock is not available", "Oops", {
@@ -119,6 +129,7 @@ export class CreditSaleComponent implements OnInit {
     });
 
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    this.agregarProducto.precio = Price;
 
     this.formGroup.patchValue({
       producto: '',
@@ -184,5 +195,8 @@ export class CreditSaleComponent implements OnInit {
 
     }
   }
+  changeOfferPrice(event: any){
+    this.formGroup.controls['offerPrice'].setValue(event.checked) 
 
+  }
 }

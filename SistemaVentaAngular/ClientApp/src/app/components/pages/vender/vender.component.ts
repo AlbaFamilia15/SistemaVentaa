@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { DetalleVenta } from '../../../interfaces/detalle-venta';
 import { Producto } from '../../../interfaces/producto';
@@ -29,10 +29,13 @@ export class VenderComponent implements OnInit {
   totalPagar: number = 0;
 
   formGroup: FormGroup;
-  displayedColumns: string[] = ['producto', 'cantidad', 'cantidadML' ,'precio', 'total','accion'];
+  displayedColumns: string[] = ['producto', 'cantidad', 'cantidadML', 'precio', 'total', 'accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   // cantidadML: number = 5;
   cantidadML: number = 0;
+  offerPrice: boolean = false;
+  isNetPrice: boolean = false;
+  newAgregarProducto!: Producto;
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +43,7 @@ export class VenderComponent implements OnInit {
     private _ventaServicio: VentaService,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    
+
   ) {
 
     this.formGroup = this.fb.group({
@@ -51,14 +54,14 @@ export class VenderComponent implements OnInit {
     })
 
     this.formGroup.get('producto')?.valueChanges.subscribe(value => {
-      this.filteredOptions =  this._filter(value)
+      this.filteredOptions = this._filter(value)
     })
 
     this._productoServicio.getProductos().subscribe({
       next: (data) => {
         if (data.status)
           this.options = data.value;
-          console.log(data.value)
+        console.log(data.value)
       },
       error: (e) => {
       },
@@ -86,11 +89,19 @@ export class VenderComponent implements OnInit {
   productoSeleccionado(event: any) {
     this.agregarProducto = event.option.value;
     this.checkBoxValue = event.option.value.isCantidad ? true : false;
+    this.isNetPrice = this.agregarProducto.netPrice != null ? true : false;
+    if (!this.isNetPrice) {
+      this.offerPrice = false;
+    }
     this.cantidadML = 0;
   }
 
   onSubmitForm() {
     this.checkBoxValue = false;
+    let Price = this.agregarProducto.precio;
+    this.agregarProducto.precio = this.offerPrice ? this.agregarProducto.netPrice.toString() : this.agregarProducto.precio
+    this.offerPrice = false;
+    this.isNetPrice = false;
     this.cantidadML = 0;
     if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
       this._snackBar.open("Product stock is not available", "Oops", {
@@ -100,7 +111,6 @@ export class VenderComponent implements OnInit {
       });
       //return;
     }
-
     //const _cantidad: number = parseFloat(this.cantidadML);
     const _cantidad: number = this.formGroup.value.cantidad;
     const _cantidadML: number = parseFloat(String(this.cantidadML));
@@ -118,13 +128,12 @@ export class VenderComponent implements OnInit {
     });
 
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-
     this.formGroup.patchValue({
       producto: '',
       cantidad: '',
       cantidadML: ''
     })
-
+    this.agregarProducto.precio = Price;
   }
 
   eliminarProducto(item: DetalleVenta) {
@@ -140,7 +149,7 @@ export class VenderComponent implements OnInit {
     if (this.ELEMENT_DATA.length > 0) {
 
       this.deshabilitado = true;
-      
+
 
       const ventaDto: Venta = {
         tipoPago: this.tipodePago,
@@ -182,5 +191,7 @@ export class VenderComponent implements OnInit {
 
     }
   }
-
+  changeOfferPrice(event: any) {
+    this.offerPrice = event.checked
+  }
 }

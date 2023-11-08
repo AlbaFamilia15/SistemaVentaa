@@ -368,5 +368,131 @@ namespace SistemaVentaAngular.Repository.Implementacion
             }
         }
 
+        public async Task<int> TotalVentasCreditoFilter(string filtertype, string? startdate, string? enddate)
+        {
+            int total = 0;
+            try
+            {
+                IQueryable<VentasCredito> _ventaQuery = _dbcontext.VentasCredito.AsQueryable();
+
+                if (_ventaQuery.Count() > 0)
+                {
+                    DateTime? startDate = null;
+                    DateTime? endDate = null;
+
+                    if (!string.IsNullOrEmpty(startdate))
+                    {
+                        startDate = DateTime.Parse(startdate);
+                    }
+
+                    if (!string.IsNullOrEmpty(enddate))
+                    {
+                        endDate = DateTime.Parse(enddate);
+                    }
+
+
+                    DateTime baseDate = DateTime.Today;
+
+                    var today = baseDate;
+                    var thisWeekStart = baseDate.AddDays(-(int)baseDate.DayOfWeek);
+                    var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
+                    var thisMonthStart = baseDate.AddDays(1 - baseDate.Day);
+                    var thisMonthEnd = thisMonthStart.AddMonths(1).AddSeconds(-1);
+
+                    switch (filtertype)
+                    {
+                        case "Diario":
+                            total = _ventaQuery.Count(v => v.PaidFecha.Value.Date == today.Date && v.IsPaid);
+                            break;
+                        case "Semanal":
+                            total = _ventaQuery.Count(v => v.PaidFecha.Value.Date >= thisWeekStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid);
+                            break;
+                        case "Mensual":
+                            total = _ventaQuery.Count(v => v.PaidFecha.Value.Date >= thisMonthStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid);
+                            break;
+                        case "Rangopersonalizado":
+                            if (startDate.HasValue && endDate.HasValue)
+                            {
+                                total = _ventaQuery.Count(v => v.PaidFecha.Value.Date >= startDate.Value.Date && v.PaidFecha.Value.Date <= endDate.Value.Date && v.IsPaid);
+                            }
+                            break;
+                        default:
+                            throw new ArgumentException("Invalid filter type");
+                    }
+                }
+
+                return total;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<string> TotalPiadIngresosUltimaSemanaFilter(string filtertype, string? startdate, string? enddate)
+        {
+            decimal resultado = 0;
+            try
+            {
+                IQueryable<VentasCredito> _ventaQuery = _dbcontext.VentasCredito.AsQueryable();
+
+                if (_ventaQuery.Count() > 0)
+                {
+                    DateTime? startDate = null;
+                    DateTime? endDate = null;
+
+                    if (!string.IsNullOrEmpty(startdate))
+                    {
+                        startDate = DateTime.Parse(startdate);
+                    }
+
+                    if (!string.IsNullOrEmpty(enddate))
+                    {
+                        endDate = DateTime.Parse(enddate);
+                    }
+
+
+                    DateTime baseDate = DateTime.Today;
+
+                    var today = baseDate;
+                    var thisWeekStart = baseDate.AddDays(-(int)baseDate.DayOfWeek);
+                    var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
+                    var thisMonthStart = baseDate.AddDays(1 - baseDate.Day);
+                    var thisMonthEnd = thisMonthStart.AddMonths(1).AddSeconds(-1);
+
+                    switch (filtertype)
+                    {
+                        case "Diario":
+                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date == today.Date && v.IsPaid).Select(v => v.Total)
+                         .Sum(v => v.Value);
+                            break;
+                        case "Semanal":
+                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= thisWeekStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid).Select(v => v.Total)
+                         .Sum(v => v.Value);
+                            break;
+                        case "Mensual":
+                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= thisMonthStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid).Select(v => v.Total)
+                         .Sum(v => v.Value);
+                            break;
+                        case "Rangopersonalizado":
+                            if (startDate.HasValue && endDate.HasValue)
+                            {
+                                resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= startDate.Value.Date && v.PaidFecha.Value.Date <= endDate.Value.Date && v.IsPaid).Select(v => v.Total)
+                         .Sum(v => v.Value);
+                            }
+                            break;
+                        default:
+                            throw new ArgumentException("Invalid filter type");
+                    }
+                }
+
+                return Convert.ToString(resultado, new CultureInfo("es-PE"));
+            }
+            catch
+            {
+                throw;
+            }
+
+
+        }
     }
 }

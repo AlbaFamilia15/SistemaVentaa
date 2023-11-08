@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
     this._usuarioServicio.getIniciarSesion(correo, clave).subscribe({
       next: (data) => {
-       
+       localStorage.setItem('userData', data.value.idRol)
         if (data.status) {
           this.router.navigate(['pages'])
         } else {

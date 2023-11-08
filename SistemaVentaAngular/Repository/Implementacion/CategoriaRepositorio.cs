@@ -23,5 +23,19 @@ namespace SistemaVentaAngular.Repository.Implementacion
                 throw;
             }
         }
+        public async Task<Categoria> Crear(Categoria entidad)
+        {
+            try
+            {
+                _dbContext.Set<Categoria>().Add(entidad);
+                await _dbContext.SaveChangesAsync();
+                return entidad;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

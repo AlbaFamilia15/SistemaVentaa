@@ -11,6 +11,7 @@ import { DialogDetalleVentacreditoComponent } from '../modals/dialog-detalle-ven
 import { VentasCredito } from '../../../interfaces/ventas-credito';
 import { VentasCreditoService } from '../../../services/ventas-credito.service';
 import { DialogDeleteHistorialVentaCreditoComponent } from '../modals/dialog-delete-historialventacredito/dialog-delete-historialventacredito.component';
+import { DialogConfirmationHistorialVentaCreditoComponent } from '../modals/dialog-confirmation-historialventacredito/dialog-confirmation-historialventacredito.component';
 
 
 export const MY_DATE_FORMATS = {
@@ -126,21 +127,32 @@ export class HistorialventacreditoComponent implements OnInit {
   }
 
   onToggleChange(_venta: VentasCredito, newValue: boolean) {
-    _venta.isPaid = newValue;
-    this._ventaCreditoServicio.update(_venta).subscribe({
-      next: (data) => {
-        if (data.status) {
-          this._snackBar.open("Updated successfully!!", "OK", { duration: 2000 });
-        }
-        else
-          this._snackBar.open("Error occured while updating", 'Oops!', { duration: 2000 });
-      },
-      error: (e) => {
-      },
-      complete: () => {
+    this.dialog.open(DialogConfirmationHistorialVentaCreditoComponent, {
+      disableClose: true,
+      data: _venta
+    }).afterClosed().subscribe(result => {
+      _venta.isPaid = !newValue;
+      if (result == "confirmation") {
+        _venta.isPaid = newValue;
+      _venta.paidFecha =  moment(new Date()).format('DD/MM/YYYY')
+      console.log(_venta.paidFecha,'date')
+        this._ventaCreditoServicio.update(_venta).subscribe({
+          next: (data) => {
+            if (data.status) {
+              this._snackBar.open("Updated successfully!!", "OK", { duration: 2000 });
+            }
+            else
+              this._snackBar.open("Error occured while updating", 'Oops!', { duration: 2000 });
+          },
+          error: (e) => {
+          },
+          complete: () => {
 
+          }
+        })
       }
-    })
+    });
+
   }
   eliminarVenta(_venta: VentasCredito) {
     this.dialog.open(DialogDeleteHistorialVentaCreditoComponent, {

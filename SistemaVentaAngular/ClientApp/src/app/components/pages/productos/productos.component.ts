@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Producto } from '../../../interfaces/producto';
 import { DialogDeleteProductoComponent } from '../modals/dialog-delete-producto/dialog-delete-producto.component';
 import { ProductoService } from '../../../services/producto.service';
+import { DialogCategoriaComponent } from '../modals/dialog-categoria/dialog-categoria.component';
 
 
 const ELEMENT_DATA: Producto[] = [
@@ -29,6 +30,7 @@ export class ProductosComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _productoServicio: ProductoService
   ) {
+
 
   }
 
@@ -124,5 +126,13 @@ export class ProductosComponent implements OnInit {
       duration: 3000
     });
   }
-
+  agregarCategoria() {
+    this.dialog.open(DialogCategoriaComponent, {
+      disableClose: true
+    }).afterClosed().subscribe(result => {
+      if (result === "agregado") {
+        this.mostrarProductos();
+      }
+    });
+  }
 }

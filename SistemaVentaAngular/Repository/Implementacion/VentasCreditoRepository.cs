@@ -140,6 +140,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
                     if (ventasCredito != null)
                     {
                         ventasCredito.IsPaid = entidad.IsPaid;
+                        ventasCredito.PaidFecha = entidad.PaidFecha;
                         _dbcontext.VentasCredito.Update(ventasCredito);
                     }
                     await _dbcontext.SaveChangesAsync();

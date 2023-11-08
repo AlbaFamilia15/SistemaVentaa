@@ -30,8 +30,10 @@ export class DashboardComponent implements OnInit {
   totalVentas: string = "0";
   totalProductos: string = "0";
   filterValue: string = "Diario";
+  totalVentasCredito: string = "0";
   startDate = "";
   endDate = "";
+  totalPaidIngresos: string = "0";
   constructor(
     private _dashboardServicio: DashboardService,
   ) {
@@ -119,7 +121,9 @@ export class DashboardComponent implements OnInit {
         if (data.status) {
 
           this.totalIngresos = data.value.totalIngresos;
+          this.totalPaidIngresos = data.value.totalPaidIngresos;
           this.totalVentas = data.value.totalVentas;
+          this.totalVentasCredito = data.value.totalVentasCredito;
           this.totalProductos = data.value.totalProductos;
 
           const arrayData: any[] = data.value.ventasUltimaSemana;

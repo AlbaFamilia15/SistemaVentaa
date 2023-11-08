@@ -11,17 +11,17 @@
 
     <mat-nav-list>
 
-      <mat-list-item routerLink="/pages/dashboard">
+      <mat-list-item  routerLink="/pages/dashboard">
         <mat-icon mat-list-icon>dashboard</mat-icon>
         <div mat-line>DashBoard</div>
       </mat-list-item>
 
-      <mat-list-item routerLink="/pages/usuarios">
+      <mat-list-item *ngIf="data != 2" routerLink="/pages/usuarios">
         <mat-icon mat-list-icon>group</mat-icon>
         <div mat-line>Usuarios</div>
       </mat-list-item>
 
-      <mat-list-item routerLink="/pages/productos">
+      <mat-list-item *ngIf="data != 2" routerLink="/pages/productos">
         <mat-icon mat-list-icon>collections_bookmark</mat-icon>
         <div mat-line>Productos</div>
       </mat-list-item>
@@ -41,7 +41,7 @@
         <div mat-line>Historial Ventas</div>
       </mat-list-item>
 
-      <mat-list-item routerLink="/pages/reportes">
+      <mat-list-item *ngIf="data != 2" routerLink="/pages/reportes">
         <mat-icon mat-list-icon>receipt</mat-icon>
         <div mat-line>Reportes</div>
       </mat-list-item>
@@ -56,7 +56,7 @@
         <div mat-line>Credit Sales History</div>
       </mat-list-item>
 
-      <mat-list-item routerLink="/pages/credit-sales-reportes">
+      <mat-list-item *ngIf="data != 2" routerLink="/pages/credit-sales-reportes">
         <mat-icon mat-list-icon>receipt</mat-icon>
         <div mat-line>Credit Sales Reports</div>
       </mat-list-item>

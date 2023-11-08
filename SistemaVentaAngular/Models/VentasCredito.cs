@@ -13,6 +13,7 @@ namespace SistemaVentaAngular.Models
         public string? NumeroDocumento { get; set; }
         public string? TipoPago { get; set; }
         public DateTime? FechaRegistro { get; set; }
+        public DateTime? PaidFecha { get; set; }
         public decimal? Total { get; set; }
         public bool IsPaid { get; set; }
         [NotMapped]

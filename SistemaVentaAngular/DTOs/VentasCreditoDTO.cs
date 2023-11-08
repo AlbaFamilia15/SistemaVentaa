@@ -9,6 +9,7 @@
         public string? TotalTexto { get; set; }
         public string? customerName { get; set; }
         public bool? isPaid { get; set; }
+        public string? PaidFecha { get; set; }
 
         public virtual ICollection<DetalleVentasCreditoDTO>? DetalleVentasCredito { get; set; }
     }

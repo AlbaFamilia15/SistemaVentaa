@@ -59,7 +59,6 @@
 
       </mat-grid-tile>
 
-
       <mat-grid-tile>
         <mat-card class="example-card">
           <mat-card-header>
@@ -72,6 +71,33 @@
         </mat-card>
       </mat-grid-tile>
 
+      <mat-grid-tile>
+
+        <mat-card class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <mat-icon color="accent">payments</mat-icon>
+            </div>
+            <mat-card-title>Total Paid Ingresos</mat-card-title>
+            <mat-card-subtitle>{{totalPaidIngresos ?  'RD$ ' + totalPaidIngresos : totalPaidIngresos}}</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+
+        <mat-card class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <mat-icon color="warn">sell</mat-icon>
+            </div>
+            <mat-card-title>Total Ventas Credito</mat-card-title>
+            <mat-card-subtitle>{{totalVentasCredito}}</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+
+      </mat-grid-tile>
 
     </mat-grid-list>
 
