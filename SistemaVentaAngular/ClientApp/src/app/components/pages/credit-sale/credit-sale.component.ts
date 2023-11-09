@@ -100,7 +100,6 @@ export class CreditSaleComponent implements OnInit {
     this.agregarProducto.precio = this.formGroup.controls['offerPrice'].value ? this.agregarProducto.netPrice.toString() : this.agregarProducto.precio
     this.formGroup.controls['offerPrice'].setValue(false) 
     this.isNetPrice = false;
-    this.cantidadML = "";
     if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
       this._snackBar.open("Product stock is not available", "Oops", {
         horizontalPosition: "center",
@@ -136,7 +135,7 @@ export class CreditSaleComponent implements OnInit {
       cantidad: '',
       cantidadML: ''
     })
-
+    this.cantidadML = "";
   }
 
   eliminarProducto(item: DetalleVentasCredito) {
