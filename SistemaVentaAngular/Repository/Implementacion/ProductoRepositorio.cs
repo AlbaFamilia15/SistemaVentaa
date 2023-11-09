@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SistemaVentaAngular.DTOs;
 using SistemaVentaAngular.Models;
 using SistemaVentaAngular.Repository.Contratos;
 using System.Linq;
@@ -52,6 +53,39 @@ namespace SistemaVentaAngular.Repository.Implementacion
         {
             try
             {
+                List<DetalleVentasCredito> detalleventascredito = new List<DetalleVentasCredito>();
+
+                 detalleventascredito = _dbContext.DetalleVentasCredito.Where(p => p.IdProducto.Equals(entidad.IdProducto)).ToList();
+                if (detalleventascredito.Any())
+                {
+                    foreach (var item in detalleventascredito)
+                    {
+                        _dbContext.DetalleVentasCredito.Remove(item);
+                        await _dbContext.SaveChangesAsync();
+
+                        VentasCredito ventasCredito = _dbContext.VentasCredito.Where(x => x.IdVentasCredito.Equals(item.IdVentasCredito)).First();
+                        ventasCredito.Total = ventasCredito.Total - item.Total;
+                        _dbContext.VentasCredito.Update(ventasCredito);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                    
+                }
+
+                List<DetalleVenta> detalleventa = new List<DetalleVenta>();
+                detalleventa = _dbContext.DetalleVenta.Where(p => p.IdProducto.Equals(entidad.IdProducto)).ToList();
+                if (detalleventa.Any())
+                {
+                    foreach (var item in detalleventa)
+                    {
+                        _dbContext.DetalleVenta.Remove(item);
+                        await _dbContext.SaveChangesAsync();
+
+                        Venta venta = _dbContext.Venta.Where(x => x.IdVenta.Equals(item.IdVenta)).First();
+                        venta.Total = venta.Total - item.Total;
+                        _dbContext.Venta.Update(venta);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
                 _dbContext.Remove(entidad);
                 await _dbContext.SaveChangesAsync();
                 return true;
@@ -83,24 +117,9 @@ namespace SistemaVentaAngular.Repository.Implementacion
                 {
                     if (string.IsNullOrEmpty(data.image))
                     {
-                        //Producto producto = new Producto();
-                        //producto.IdProducto = data.IdProducto;
-                        //producto.image = fileName;
-                        //producto.Nombre = data.Nombre;
-                        //producto.IdCategoria = data.IdCategoria;
-                        //producto.Stock = data.Stock;
-                        //producto.Precio = data.Precio;
-                        //producto.EsActivo = data.EsActivo;
-                        //producto.FechaRegistro = data.FechaRegistro;
-                        //producto.NetPrice = data.NetPrice;
-                        //producto.cantidadML = data.cantidadML;
-                        //producto.isCantidad = data.isCantidad;
-
-                        //_dbContext.Productos.Update(producto);
-                        //_dbContext.SaveChanges();
                         data.image = fileName;
                         _dbContext.Update(data).Context.SaveChanges();
-                         _dbContext.SaveChangesAsync().GetAwaiter().GetResult();
+                        _dbContext.SaveChangesAsync().GetAwaiter().GetResult();
                         return true;
                     }
                 }
