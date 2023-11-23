@@ -128,3 +128,6 @@ GO
 
 ALTER TABLE VentasCredito ADD paidFecha datetime 
 GO
+
+ALTER TABLE [dbo].[Producto] ADD Cost int NULL
+GO

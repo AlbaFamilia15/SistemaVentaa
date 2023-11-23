@@ -21,6 +21,7 @@ namespace SistemaVentaAngular.Models
         public decimal? NetPrice { get; set; }
         public bool? isCantidad { get; set; }
         public string? image { get; set; }
+        public int? Cost { get; set; }
         public string? imagePath { get; set; }
         public virtual Categoria? IdCategoriaNavigation { get; set; }
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }

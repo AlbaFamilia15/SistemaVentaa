@@ -118,6 +118,7 @@ namespace SistemaVentaAngular.Controllers
                     _productoParaEditar.Precio = _producto.Precio;
                     _productoParaEditar.NetPrice = _producto.NetPrice;
                     _productoParaEditar.isCantidad = _producto.isCantidad;
+                    _productoParaEditar.Cost = _producto.Cost;
 
                     bool respuesta = await _productoRepositorio.Editar(_productoParaEditar);
 

@@ -21,7 +21,7 @@ const ELEMENT_DATA: Producto[] = [
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent implements OnInit {
-  displayedColumns: string[] = ['nombre', 'categoria', 'stock', 'precio', 'netPrice',/*'precio Neto',*/'acciones'];
+  displayedColumns: string[] = ['nombre', 'categoria', 'stock', 'precio', 'netPrice','cost',/*'precio Neto',*/'acciones'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

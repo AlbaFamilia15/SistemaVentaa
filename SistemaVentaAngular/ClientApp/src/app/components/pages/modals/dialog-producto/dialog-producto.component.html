@@ -78,6 +78,14 @@
       </mat-grid-tile>
 
       <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Cost</mat-label>
+          <input matInput autocomplete="off" formControlName="cost" type="number">
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
         <div class="custom-mat-form-field">
           <mat-label>Select a photo</mat-label>
           <input type="file" (change)="onFileSelected($event)" accept="image/*" />

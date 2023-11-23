@@ -9,4 +9,5 @@ export interface Producto {
   isCantidad: boolean;
   image?: string;
   imagePath?: string;
+  cost: number;
 }
