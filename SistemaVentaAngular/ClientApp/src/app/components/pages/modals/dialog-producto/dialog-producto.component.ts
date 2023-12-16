@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Categoria } from '../../../../interfaces/categoria';
@@ -20,6 +20,7 @@ export class DialogProductoComponent implements OnInit {
   listaCategorias: Categoria[] = [];
   selectedFile: File | null = null;
   imagePath: any = "";
+  isPriceML: boolean = false;
 
   constructor(
     private dialogoReferencia: MatDialogRef<DialogProductoComponent>,
@@ -39,7 +40,12 @@ export class DialogProductoComponent implements OnInit {
       netPrice: ['', Validators.required],
       cost: ['', Validators.required],
       isCantidad: [false],
-      image: ['']
+      image: [''],
+      precio5ML: ['', this.isPriceML ? Validators.required : null],
+      precio10ML: ['', this.isPriceML ? Validators.required : null],
+      precio15ML: ['', this.isPriceML ? Validators.required : null],
+      precio30ML: ['', this.isPriceML ? Validators.required : null],
+      precio100ML: ['', this.isPriceML ? Validators.required : null],
     })
 
 
@@ -68,15 +74,18 @@ export class DialogProductoComponent implements OnInit {
       complete: () => {
       }
     })
-
   }
 
 
   ngOnInit(): void {
 
     if (this.productoEditar) {
+      this.isPriceML = false;
       console.log(this.productoEditar)
       this.imagePath = this.productoEditar.imagePath
+      if (this.productoEditar.idCategoria == 2) {
+        this.isPriceML = true;
+      }
       this.formProducto.patchValue({
         nombre: this.productoEditar.nombre,
         idCategoria: String(this.productoEditar.idCategoria),
@@ -87,12 +96,23 @@ export class DialogProductoComponent implements OnInit {
         isCantidad: this.productoEditar.isCantidad,
         image: this.productoEditar.image,
         cost: this.productoEditar.cost,
+        precio5ML: this.productoEditar.precio5ML,
+        precio10ML: this.productoEditar.precio10ML,
+        precio15ML: this.productoEditar.precio15ML,
+        precio30ML: this.productoEditar.precio30ML,
+        precio100ML: this.productoEditar.precio100ML,
       })
     }
   }
 
   agregarEditarProducto() {
     const formData = new FormData();
+    if (this.formProducto.value.idCategoria == 2) {
+      if (!this.formProducto.value.precio5ML || !this.formProducto.value.precio10ML || !this.formProducto.value.precio15ML || !this.formProducto.value.precio30ML || !this.formProducto.value.precio100ML) {
+        this.mostrarAlerta("Please fill all the precio ML fields", "Exito");
+        return;
+      }
+    }
     if (this.selectedFile) {
       let idProducto = this.productoEditar == null ? 0 : this.productoEditar.idProducto;
       formData.append('image', this.selectedFile, this.selectedFile.name);
@@ -104,6 +124,11 @@ export class DialogProductoComponent implements OnInit {
       idCategoria: this.formProducto.value.idCategoria,
       descripcionCategoria: "",
       precio: this.formProducto.value.precio,
+      precio5ML: this.formProducto.value.precio5ML != "" ? this.formProducto.value.precio5ML : 0,
+      precio10ML: this.formProducto.value.precio10ML != "" ? this.formProducto.value.precio10ML : 0,
+      precio15ML: this.formProducto.value.precio15ML != "" ? this.formProducto.value.precio15ML : 0,
+      precio30ML: this.formProducto.value.precio30ML != "" ? this.formProducto.value.precio30ML : 0,
+      precio100ML: this.formProducto.value.precio100ML != "" ? this.formProducto.value.precio100ML : 0,
       stock: this.formProducto.value.stock,
       netPrice: this.formProducto.value.netPrice,
       isCantidad: this.formProducto.value.isCantidad,
@@ -194,6 +219,12 @@ export class DialogProductoComponent implements OnInit {
       };
 
       reader.readAsDataURL(this.selectedFile);
+    }
+  }
+  onFilterChange(event: any) {
+    this.isPriceML = false;
+    if (event.value == 2) {
+      this.isPriceML = true;
     }
   }
 }

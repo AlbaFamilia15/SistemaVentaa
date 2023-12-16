@@ -33,6 +33,8 @@ export class CreditSaleComponent implements OnInit {
   cantidadML: string = "";
   checkBoxValue: boolean = false;
   isNetPrice: boolean = false;
+  stock: number = 0;
+  isPriceML: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -85,9 +87,13 @@ export class CreditSaleComponent implements OnInit {
   }
 
   productoSeleccionado(event: any) {
+    this.stock = 0;
     this.agregarProducto = event.option.value;
     this.checkBoxValue = event.option.value.isCantidad ? true : false
     this.isNetPrice = this.agregarProducto.netPrice != null ? true : false;
+    this.stock = event.option.value.stock;
+    this.isPriceML = event.option.value.idCategoria == 2 ? true : false;
+    this.totalPagar = Number(event.option.value.precio)
     if(!this.isNetPrice){
       this.formGroup.controls['offerPrice'].setValue(false) 
     }
@@ -111,7 +117,7 @@ export class CreditSaleComponent implements OnInit {
 
     //const _cantidad: number = parseFloat(this.cantidadML);
     const _cantidad: number = this.formGroup.value.cantidad;
-    const _cantidadML: number = parseFloat(this.cantidadML);
+    const _cantidadML: number = parseFloat(String(this.stock));
     const _precio: number = parseFloat(this.agregarProducto.precio);
     const _total: number = _cantidad * _precio;
     this.totalPagar = this.totalPagar + _total;
@@ -195,7 +201,56 @@ export class CreditSaleComponent implements OnInit {
     }
   }
   changeOfferPrice(event: any){
+    let offerPrice = event.checked
     this.formGroup.controls['offerPrice'].setValue(event.checked) 
-
+    if (offerPrice) { this.totalPagar = this.agregarProducto.netPrice }
+    else {
+      let Price: any = Number(this.agregarProducto.precio)
+      this.totalPagar = Number(Price);
+      if (this.agregarProducto.idCategoria == 2 && !offerPrice) {
+        if (this.formGroup.value.cantidad == 5) {
+          Price = this.agregarProducto.precio5ML;
+        } else if (this.formGroup.value.cantidad == 10) {
+          Price = this.agregarProducto.precio10ML;
+        } else if (this.formGroup.value.cantidad == 15) {
+          Price = this.agregarProducto.precio15ML;
+        } else if (this.formGroup.value.cantidad == 30) {
+          Price = this.agregarProducto.precio30ML;
+        } else if (this.formGroup.value.cantidad == 100) {
+          Price = this.agregarProducto.precio100ML;
+        }
+        this.totalPagar = Number(Price);
+      }
+    }
+  }
+  clearSelection() {
+    if (!this.formGroup.value.producto) {
+      this.stock = 0;
+      this.isPriceML = false;
+      this.totalPagar = 0.00;
+    }
+  }
+  getPattern(): string {
+    return this.isPriceML ? '^(5|10|15|30|100)$' : '^[0-9]+$';
+  }
+  updateTotal() {
+    let Price = this.agregarProducto.precio;
+    if(this.formGroup.controls['offerPrice'].value){
+      this.totalPagar =  this.agregarProducto.netPrice;
+    }
+    if (this.agregarProducto.idCategoria == 2 && !this.formGroup.controls['offerPrice'].value) {
+      if (this.formGroup.value.cantidad == 5) {
+        Price = this.agregarProducto.precio5ML;
+      } else if (this.formGroup.value.cantidad == 10) {
+        Price = this.agregarProducto.precio10ML;
+      } else if (this.formGroup.value.cantidad == 15) {
+        Price = this.agregarProducto.precio15ML;
+      } else if (this.formGroup.value.cantidad == 30) {
+        Price = this.agregarProducto.precio30ML;
+      } else if (this.formGroup.value.cantidad == 100) {
+        Price = this.agregarProducto.precio100ML;
+      }
+      this.totalPagar = Number(Price);
+    }
   }
 }

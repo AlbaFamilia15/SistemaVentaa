@@ -36,6 +36,8 @@ export class VenderComponent implements OnInit {
   offerPrice: boolean = false;
   isNetPrice: boolean = false;
   newAgregarProducto!: Producto;
+  stock: number = 0;
+  isPriceML: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -87,9 +89,13 @@ export class VenderComponent implements OnInit {
   }
 
   productoSeleccionado(event: any) {
+    this.stock = 0;
     this.agregarProducto = event.option.value;
     this.checkBoxValue = event.option.value.isCantidad ? true : false;
     this.isNetPrice = this.agregarProducto.netPrice != null ? true : false;
+    this.stock = event.option.value.stock;
+    this.isPriceML = event.option.value.idCategoria == 2 ? true : false;
+    this.totalPagar = Number(event.option.value.precio)
     if (!this.isNetPrice) {
       this.offerPrice = false;
     }
@@ -99,7 +105,22 @@ export class VenderComponent implements OnInit {
   onSubmitForm() {
     this.checkBoxValue = false;
     let Price = this.agregarProducto.precio;
-    this.agregarProducto.precio = this.offerPrice ? this.agregarProducto.netPrice.toString() : this.agregarProducto.precio
+    if (this.agregarProducto.idCategoria == 2) {
+      if (this.formGroup.value.cantidad == 5) {
+        this.agregarProducto.precio = this.agregarProducto.precio5ML;
+      } else if (this.formGroup.value.cantidad == 10) {
+        this.agregarProducto.precio = this.agregarProducto.precio10ML;
+      } else if (this.formGroup.value.cantidad == 15) {
+        this.agregarProducto.precio = this.agregarProducto.precio15ML;
+      } else if (this.formGroup.value.cantidad == 30) {
+        this.agregarProducto.precio = this.agregarProducto.precio30ML;
+      } else if (this.formGroup.value.cantidad == 100) {
+        this.agregarProducto.precio = this.agregarProducto.precio100ML;
+      } else {
+        this.agregarProducto.precio = Price;
+      }
+    }
+    this.agregarProducto.precio = this.offerPrice ? this.agregarProducto.netPrice.toString() : this.agregarProducto.precio;
     this.offerPrice = false;
     this.isNetPrice = false;
     if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
@@ -112,7 +133,7 @@ export class VenderComponent implements OnInit {
     }
     //const _cantidad: number = parseFloat(this.cantidadML);
     const _cantidad: number = this.formGroup.value.cantidad;
-    const _cantidadML: number = parseFloat(String(this.cantidadML));
+    const _cantidadML: number = parseFloat(String(this.stock));
     const _precio: number = parseFloat(this.agregarProducto.precio);
     const _total: number = _cantidad * _precio;
     this.totalPagar = this.totalPagar + _total;
@@ -193,5 +214,54 @@ export class VenderComponent implements OnInit {
   }
   changeOfferPrice(event: any) {
     this.offerPrice = event.checked
+    if (this.offerPrice) { this.totalPagar = this.agregarProducto.netPrice }
+    else {
+      let Price: any = Number(this.agregarProducto.precio)
+      this.totalPagar = Number(Price);
+      if (this.agregarProducto.idCategoria == 2 && !this.offerPrice) {
+        if (this.formGroup.value.cantidad == 5) {
+          Price = this.agregarProducto.precio5ML;
+        } else if (this.formGroup.value.cantidad == 10) {
+          Price = this.agregarProducto.precio10ML;
+        } else if (this.formGroup.value.cantidad == 15) {
+          Price = this.agregarProducto.precio15ML;
+        } else if (this.formGroup.value.cantidad == 30) {
+          Price = this.agregarProducto.precio30ML;
+        } else if (this.formGroup.value.cantidad == 100) {
+          Price = this.agregarProducto.precio100ML;
+        }
+        this.totalPagar = Number(Price);
+      }
+    }
+  }
+  clearSelection() {
+    if (!this.formGroup.value.producto) {
+      this.stock = 0;
+      this.isPriceML = false;
+      this.totalPagar = 0.00;
+    }
+  }
+  getPattern(): string {
+    return this.isPriceML ? '^(5|10|15|30|100)$' : '^[0-9]+$';
+  }
+  updateTotal() {
+    let Price = this.agregarProducto.precio;
+    if(this.offerPrice){
+      this.totalPagar =  this.agregarProducto.netPrice;
+    }
+    if (this.agregarProducto.idCategoria == 2 && !this.offerPrice) {
+      if (this.formGroup.value.cantidad == 5) {
+        Price = this.agregarProducto.precio5ML;
+      } else if (this.formGroup.value.cantidad == 10) {
+        Price = this.agregarProducto.precio10ML;
+      } else if (this.formGroup.value.cantidad == 15) {
+        Price = this.agregarProducto.precio15ML;
+      } else if (this.formGroup.value.cantidad == 30) {
+        Price = this.agregarProducto.precio30ML;
+      } else if (this.formGroup.value.cantidad == 100) {
+        Price = this.agregarProducto.precio100ML;
+      }
+      this.totalPagar = Number(Price);
+    }
   }
 }

@@ -10,7 +10,7 @@
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Producto</mat-label>
             <input type="text" placeholder="Buscar..." aria-label="Number" matInput [matAutocomplete]="auto"
-              formControlName="producto">
+              formControlName="producto" (input)="clearSelection()">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
               (optionSelected)="productoSeleccionado($event)" [displayWith]="displayProducto">
               <mat-option *ngFor="let option of filteredOptions" [value]="option">
@@ -24,7 +24,7 @@
         <mat-grid-tile>
           <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">
             <mat-label>Cantidad</mat-label>
-            <input matInput type="number" formControlName="cantidad">
+            <input matInput type="number" formControlName="cantidad" [pattern]="getPattern()" (input)="updateTotal()">
           </mat-form-field>
         </mat-grid-tile>
 
@@ -50,12 +50,13 @@
 
         <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">
           <mat-label>Cantidad ML</mat-label>
-          <mat-select [disabled]="!checkBoxValue" [(value)]="cantidadML">
+          <input matInput [disabled]="true" type="number" [(ngModel)]="stock">
+          <!-- <mat-select [disabled]="!checkBoxValue" [(value)]="cantidadML">
             <mat-option value="5">05ml</mat-option>
             <mat-option value="10">10ml</mat-option>
             <mat-option value="15">15ml</mat-option>
             <mat-option value="30">30ml</mat-option>
-          </mat-select>
+          </mat-select> -->
         </mat-form-field>
 
         <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">

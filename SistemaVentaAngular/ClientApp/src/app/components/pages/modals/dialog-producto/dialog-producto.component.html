@@ -15,7 +15,7 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Categoria</mat-label>
-          <mat-select formControlName="idCategoria">
+          <mat-select formControlName="idCategoria" (selectionChange)="onFilterChange($event)">
             <mat-option *ngFor="let item of listaCategorias" [value]="item.idCategoria">
               {{item.descripcion}}
             </mat-option>
@@ -40,6 +40,41 @@
         </mat-form-field>
       </mat-grid-tile>
 
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Precio 5ML</mat-label>
+          <input matInput autocomplete="off" formControlName="precio5ML" type="text" >
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Precio 10ML</mat-label>
+          <input matInput autocomplete="off" formControlName="precio10ML" type="text" >
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Precio 15ML</mat-label>
+          <input matInput autocomplete="off" formControlName="precio15ML" type="text" >
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Precio 30ML</mat-label>
+          <input matInput autocomplete="off" formControlName="precio30ML" type="text" >
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Precio 100ML</mat-label>
+          <input matInput autocomplete="off" formControlName="precio100ML" type="text" >
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Precio Neto</mat-label>
@@ -98,12 +133,12 @@
           <img src="data:image/png;base64,{{ imagePath }}" height="80px" width="300px" />
         </div>
       </mat-grid-tile>
-      <mat-grid-tile>
+      <!-- <mat-grid-tile>
         <div class="checkbox-container">
           <mat-label>Show Candidad</mat-label>
           <mat-checkbox formControlName="isCantidad" style="margin-left: 5%;" color="primary"></mat-checkbox>
         </div>
-      </mat-grid-tile>
+      </mat-grid-tile> -->
 
     </mat-grid-list>
   </form>
@@ -112,7 +147,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close>Volver</button>
-  <button mat-raised-button color="primary" [disabled]="formProducto.invalid" (click)="agregarEditarProducto()">
+  <button mat-raised-button color="primary" [disabled]="formProducto?.invalid" (click)="agregarEditarProducto()">
     {{accionBoton}}
   </button>
 </mat-dialog-actions>

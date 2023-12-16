@@ -10,4 +10,9 @@ export interface Producto {
   image?: string;
   imagePath?: string;
   cost: number;
+  precio5ML:string,
+  precio10ML:string,
+  precio15ML:string,
+  precio30ML:string,
+  precio100ML:string,
 }

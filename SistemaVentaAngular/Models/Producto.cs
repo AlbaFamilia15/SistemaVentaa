@@ -15,6 +15,11 @@ namespace SistemaVentaAngular.Models
         public int? IdCategoria { get; set; }
         public int? Stock { get; set; }
         public decimal? Precio { get; set; }
+        public decimal? Precio5ML { get; set; }
+        public decimal? Precio10ML { get; set; }
+        public decimal? Precio15ML { get; set; }
+        public decimal? Precio30ML { get; set; }
+        public decimal? Precio100ML { get; set; }
         public bool? EsActivo { get; set; }
         public DateTime? FechaRegistro { get; set; }
         public int? cantidadML { get; set; }
