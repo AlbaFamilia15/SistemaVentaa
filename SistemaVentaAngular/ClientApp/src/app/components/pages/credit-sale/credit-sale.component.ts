@@ -27,7 +27,7 @@ export class CreditSaleComponent implements OnInit {
   totalPagar: number = 0;
 
   formGroup: FormGroup;
-  displayedColumns: string[] = ['producto', 'cantidad', 'cantidadML', 'precio', 'total', 'customerName', 'accion'];
+  displayedColumns: string[] = ['producto', 'cantidad', 'precio', 'total', 'customerName', 'accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   // cantidadML: string = "5";
   cantidadML: string = "";
@@ -90,12 +90,16 @@ export class CreditSaleComponent implements OnInit {
     this.stock = 0;
     this.agregarProducto = event.option.value;
     this.checkBoxValue = event.option.value.isCantidad ? true : false
-    this.isNetPrice = this.agregarProducto.netPrice != null ? true : false;
+    this.isNetPrice = this.agregarProducto.netPrice != null ? (event.option.value.idCategoria == 2 ? false : true) : false;
     this.stock = event.option.value.stock;
     this.isPriceML = event.option.value.idCategoria == 2 ? true : false;
-    this.totalPagar = Number(event.option.value.precio)
-    if(!this.isNetPrice){
-      this.formGroup.controls['offerPrice'].setValue(false) 
+    if (!this.isPriceML) {
+      this.totalPagar = Number(event.option.value.precio)
+    } else {
+      this.totalPagar = 0.00
+    }
+    if (!this.isNetPrice) {
+      this.formGroup.controls['offerPrice'].setValue(false)
     }
     this.cantidadML = "";
   }
@@ -104,7 +108,7 @@ export class CreditSaleComponent implements OnInit {
     this.checkBoxValue = false;
     let Price = this.agregarProducto.precio;
     this.agregarProducto.precio = this.formGroup.controls['offerPrice'].value ? this.agregarProducto.netPrice.toString() : this.agregarProducto.precio
-    this.formGroup.controls['offerPrice'].setValue(false) 
+    this.formGroup.controls['offerPrice'].setValue(false)
     this.isNetPrice = false;
     if (this.agregarProducto.stock < this.formGroup.value.cantidad) {
       this._snackBar.open("Product stock is not available", "Oops", {
@@ -200,9 +204,9 @@ export class CreditSaleComponent implements OnInit {
 
     }
   }
-  changeOfferPrice(event: any){
+  changeOfferPrice(event: any) {
     let offerPrice = event.checked
-    this.formGroup.controls['offerPrice'].setValue(event.checked) 
+    this.formGroup.controls['offerPrice'].setValue(event.checked)
     if (offerPrice) { this.totalPagar = this.agregarProducto.netPrice }
     else {
       let Price: any = Number(this.agregarProducto.precio)
@@ -218,6 +222,8 @@ export class CreditSaleComponent implements OnInit {
           Price = this.agregarProducto.precio30ML;
         } else if (this.formGroup.value.cantidad == 100) {
           Price = this.agregarProducto.precio100ML;
+        } else {
+          Price = 0.00;
         }
         this.totalPagar = Number(Price);
       }
@@ -234,9 +240,9 @@ export class CreditSaleComponent implements OnInit {
     return this.isPriceML ? '^(5|10|15|30|100)$' : '^[0-9]+$';
   }
   updateTotal() {
-    let Price = this.agregarProducto.precio;
-    if(this.formGroup.controls['offerPrice'].value){
-      this.totalPagar =  this.agregarProducto.netPrice;
+    let Price: any = this.agregarProducto.precio;
+    if (this.formGroup.controls['offerPrice'].value) {
+      this.totalPagar = this.agregarProducto.netPrice;
     }
     if (this.agregarProducto.idCategoria == 2 && !this.formGroup.controls['offerPrice'].value) {
       if (this.formGroup.value.cantidad == 5) {
@@ -249,6 +255,8 @@ export class CreditSaleComponent implements OnInit {
         Price = this.agregarProducto.precio30ML;
       } else if (this.formGroup.value.cantidad == 100) {
         Price = this.agregarProducto.precio100ML;
+      } else {
+        Price = 0.00;
       }
       this.totalPagar = Number(Price);
     }

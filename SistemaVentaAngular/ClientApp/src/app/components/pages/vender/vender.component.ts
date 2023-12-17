@@ -29,7 +29,7 @@ export class VenderComponent implements OnInit {
   totalPagar: number = 0;
 
   formGroup: FormGroup;
-  displayedColumns: string[] = ['producto', 'cantidad', 'cantidadML', 'precio', 'total', 'accion'];
+  displayedColumns: string[] = ['producto', 'cantidad', 'precio', 'total', 'accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   // cantidadML: number = 5;
   cantidadML: number = 0;
@@ -92,10 +92,14 @@ export class VenderComponent implements OnInit {
     this.stock = 0;
     this.agregarProducto = event.option.value;
     this.checkBoxValue = event.option.value.isCantidad ? true : false;
-    this.isNetPrice = this.agregarProducto.netPrice != null ? true : false;
+    this.isNetPrice = this.agregarProducto.netPrice != null ? (event.option.value.idCategoria == 2 ? false : true) : false;
     this.stock = event.option.value.stock;
     this.isPriceML = event.option.value.idCategoria == 2 ? true : false;
-    this.totalPagar = Number(event.option.value.precio)
+    if (!this.isPriceML) {
+      this.totalPagar = Number(event.option.value.precio)
+    } else {
+      this.totalPagar = 0.00
+    }
     if (!this.isNetPrice) {
       this.offerPrice = false;
     }
@@ -229,6 +233,8 @@ export class VenderComponent implements OnInit {
           Price = this.agregarProducto.precio30ML;
         } else if (this.formGroup.value.cantidad == 100) {
           Price = this.agregarProducto.precio100ML;
+        }else{
+          Price = 0.00;
         }
         this.totalPagar = Number(Price);
       }
@@ -245,9 +251,9 @@ export class VenderComponent implements OnInit {
     return this.isPriceML ? '^(5|10|15|30|100)$' : '^[0-9]+$';
   }
   updateTotal() {
-    let Price = this.agregarProducto.precio;
-    if(this.offerPrice){
-      this.totalPagar =  this.agregarProducto.netPrice;
+    let Price: any = this.agregarProducto.precio;
+    if (this.offerPrice) {
+      this.totalPagar = this.agregarProducto.netPrice;
     }
     if (this.agregarProducto.idCategoria == 2 && !this.offerPrice) {
       if (this.formGroup.value.cantidad == 5) {
@@ -260,6 +266,8 @@ export class VenderComponent implements OnInit {
         Price = this.agregarProducto.precio30ML;
       } else if (this.formGroup.value.cantidad == 100) {
         Price = this.agregarProducto.precio100ML;
+      }else{
+        Price = 0.00;
       }
       this.totalPagar = Number(Price);
     }
