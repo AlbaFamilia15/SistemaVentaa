@@ -42,7 +42,7 @@ export class HistorialventacreditoComponent implements OnInit {
   ]
 
   ELEMENT_DATA: VentasCredito[] = [];
-  displayedColumns: string[] = ['numeroVenta', 'fechaRegistro', 'tipoPago', 'total', 'isPaid', 'customerName', 'accion'];
+  displayedColumns: string[] = ['numeroVenta','tipoPago', 'total', 'isPaid', 'customerName', 'accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

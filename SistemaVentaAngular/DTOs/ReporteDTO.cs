@@ -11,5 +11,7 @@
         public int? Cantidad { get; set; }
         public string? Precio { get; set; }
         public string? Total { get; set; }
+        public int? Cost { get; set; }
+
     }
 }

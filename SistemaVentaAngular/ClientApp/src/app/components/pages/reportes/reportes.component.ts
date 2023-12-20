@@ -36,7 +36,7 @@ export const MY_DATE_FORMATS = {
 export class ReportesComponent implements OnInit {
   formGroup: FormGroup;
   ELEMENT_DATA: Reporte[] = [];
-  displayedColumns: string[] = ['fechaRegistro','numeroVenta',  'tipoPago', 'total', 'producto','cantidad','precio','totalProducto'];
+  displayedColumns: string[] = ['fechaRegistro','tipoPago', 'total', 'producto','cantidad','precio','totalProducto'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

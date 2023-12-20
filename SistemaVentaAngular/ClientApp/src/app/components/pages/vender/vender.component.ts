@@ -109,16 +109,22 @@ export class VenderComponent implements OnInit {
   onSubmitForm() {
     this.checkBoxValue = false;
     let Price = this.agregarProducto.precio;
+    let isCategoria: boolean = false;
     if (this.agregarProducto.idCategoria == 2) {
       if (this.formGroup.value.cantidad == 5) {
+        isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio5ML;
       } else if (this.formGroup.value.cantidad == 10) {
+        isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio10ML;
       } else if (this.formGroup.value.cantidad == 15) {
+        isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio15ML;
       } else if (this.formGroup.value.cantidad == 30) {
+        isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio30ML;
       } else if (this.formGroup.value.cantidad == 100) {
+        isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio100ML;
       } else {
         this.agregarProducto.precio = Price;
@@ -139,7 +145,7 @@ export class VenderComponent implements OnInit {
     const _cantidad: number = this.formGroup.value.cantidad;
     const _cantidadML: number = parseFloat(String(this.stock));
     const _precio: number = parseFloat(this.agregarProducto.precio);
-    const _total: number = _cantidad * _precio;
+    const _total: number = isCategoria ? _precio :_cantidad * _precio;
     this.totalPagar = this.totalPagar + _total;
 
     this.ELEMENT_DATA.push({

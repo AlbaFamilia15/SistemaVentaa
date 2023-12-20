@@ -172,6 +172,10 @@ namespace SistemaVentaAngular.Utilidades
                 .ForMember(destino =>
                     destino.Producto,
                     opt => opt.MapFrom(origen => origen.IdProductoNavigation.Nombre)
+                ) 
+                .ForMember(destino =>
+                    destino.Cost,
+                    opt => opt.MapFrom(origen => origen.IdProductoNavigation.Cost)
                 )
                 .ForMember(destino =>
                     destino.Precio,
@@ -204,6 +208,10 @@ namespace SistemaVentaAngular.Utilidades
                 .ForMember(destino =>
                     destino.Producto,
                     opt => opt.MapFrom(origen => origen.IdProductoNavigation.Nombre)
+                )
+                .ForMember(destino =>
+                    destino.Cost,
+                    opt => opt.MapFrom(origen => origen.IdProductoNavigation.Cost)
                 )
                 .ForMember(destino =>
                     destino.Precio,
