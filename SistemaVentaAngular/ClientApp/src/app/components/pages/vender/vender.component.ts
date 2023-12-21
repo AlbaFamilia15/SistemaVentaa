@@ -146,7 +146,7 @@ export class VenderComponent implements OnInit {
     const _cantidadML: number = parseFloat(String(this.stock));
     const _precio: number = parseFloat(this.agregarProducto.precio);
     const _total: number = isCategoria ? _precio :_cantidad * _precio;
-    this.totalPagar = this.totalPagar + _total;
+    this.totalPagar =  _total;
 
     this.ELEMENT_DATA.push({
       idProducto: this.agregarProducto.idProducto,

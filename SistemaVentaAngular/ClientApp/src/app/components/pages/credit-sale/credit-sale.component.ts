@@ -145,7 +145,7 @@ export class CreditSaleComponent implements OnInit {
     const _cantidadML: number = parseFloat(String(this.stock));
     const _precio: number = parseFloat(this.agregarProducto.precio);
     const _total: number = isCategoria ? _precio :_cantidad * _precio;
-    this.totalPagar = this.totalPagar + _total;
+    // this.totalPagar = this.totalPagar + _total;
     const _customerName: string = this.formGroup.value.customerName;
 
     this.ELEMENT_DATA.push({
