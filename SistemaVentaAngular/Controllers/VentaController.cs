@@ -93,9 +93,41 @@ namespace SistemaVentaAngular.Controllers
             {
 
                 List<ReporteDTO> listaReporte = _mapper.Map<List<ReporteDTO>>(await _ventaRepositorio.Reporte(_fechaInicio, _fechaFin));
+                var sum = listaReporte.Select(x => x.TotalVenta).ToList();
 
+                decimal totalSum = sum.Sum(report => Convert.ToDecimal(report));
                 if (listaReporte.Count > 0)
-                    _response = new Response<List<ReporteDTO>>() { status = true, msg = "ok", value = listaReporte };
+                    _response = new Response<List<ReporteDTO>>() { status = true, msg = "ok", value = listaReporte, totalVentas = totalSum };
+                else
+                    _response = new Response<List<ReporteDTO>>() { status = false, msg = "No se pudo registrar la venta" };
+
+                return StatusCode(StatusCodes.Status200OK, _response);
+            }
+            catch (Exception ex)
+            {
+                _response = new Response<List<ReporteDTO>>() { status = false, msg = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, _response);
+
+            }
+
+        }
+
+        [HttpGet]
+        [Route("DayReporte")]
+        public async Task<IActionResult> DayReporte(string? fechaInicio, string? fechaFin, int? day)
+        {
+            Response<List<ReporteDTO>> _response = new Response<List<ReporteDTO>>();
+            DateTime _fechaInicio = DateTime.ParseExact(fechaInicio, "dd/MM/yyyy", new CultureInfo("es-PE"));
+            DateTime _fechaFin = DateTime.ParseExact(fechaFin, "dd/MM/yyyy", new CultureInfo("es-PE"));
+
+            try
+            {
+                List<ReporteDTO> listaReporte = _mapper.Map<List<ReporteDTO>>(await _ventaRepositorio.DayReporte(_fechaInicio, _fechaFin, (int)day));
+                var sum = listaReporte.Select(x => x.TotalVenta).ToList();
+
+                decimal totalSum = sum.Sum(report => Convert.ToDecimal(report));
+                if (listaReporte.Count > 0)
+                    _response = new Response<List<ReporteDTO>>() { status = true, msg = "ok", value = listaReporte, totalVentas = totalSum };
                 else
                     _response = new Response<List<ReporteDTO>>() { status = false, msg = "No se pudo registrar la venta" };
 

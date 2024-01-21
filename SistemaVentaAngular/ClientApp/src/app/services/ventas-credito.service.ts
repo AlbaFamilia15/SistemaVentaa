@@ -28,7 +28,11 @@ export class VentasCreditoService {
     return this.http.get<ResponseApi>(`${this.apiBase}Reporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
 
   }
+  dayreporte(fechaInicio: string, fechaFin: string,day: any): Observable<ResponseApi> {
 
+    return this.http.get<ResponseApi>(`${this.apiBase}DayReporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&day=${day}`);
+
+  }
   update(request: VentasCredito): Observable<ResponseApi> {
 
     return this.http.post<ResponseApi>(`${this.apiBase}update`, request, { headers: { 'Content-Type': 'application/json;charset=utf-8' } })

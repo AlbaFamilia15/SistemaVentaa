@@ -26,6 +26,7 @@ import { DialogDeleteHistorialVentaComponent } from './modals/dialog-delete-hist
 import { DialogDeleteHistorialVentaCreditoComponent } from './modals/dialog-delete-historialventacredito/dialog-delete-historialventacredito.component';
 import { DialogConfirmationHistorialVentaCreditoComponent } from './modals/dialog-confirmation-historialventacredito/dialog-confirmation-historialventacredito.component';
 import { DialogCategoriaComponent } from './modals/dialog-categoria/dialog-categoria.component';
+import { DialogDaysFilterComponent } from './modals/dialog-days-filter/dialog-days-filter.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DialogCategoriaComponent } from './modals/dialog-categoria/dialog-categ
     DialogDeleteHistorialVentaComponent,
     DialogDeleteHistorialVentaCreditoComponent,
     DialogConfirmationHistorialVentaCreditoComponent,
-    DialogCategoriaComponent
+    DialogCategoriaComponent,
+    DialogDaysFilterComponent
   ],
   imports: [
     CommonModule,

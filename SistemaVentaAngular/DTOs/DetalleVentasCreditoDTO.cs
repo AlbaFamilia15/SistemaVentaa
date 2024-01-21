@@ -9,5 +9,7 @@
         public string? TotalTexto { get; set; }
         public int? CantidadML { get; set; }
         public string? CustomerName { get; set; }
+        public string? Cost { get; set; }
+
     }
 }

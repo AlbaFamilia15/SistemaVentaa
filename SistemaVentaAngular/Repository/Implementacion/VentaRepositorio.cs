@@ -106,6 +106,22 @@ namespace SistemaVentaAngular.Repository.Implementacion
 
             return listaResumen;
         }
+        public async Task<List<DetalleVenta>> DayReporte(DateTime FechaInicio, DateTime FechaFin, int day)
+        {
+              DayOfWeek selectedDay = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), day);
+
+            List<DetalleVenta> listaResumen = await _dbcontext.DetalleVenta
+                .Include(p => p.IdProductoNavigation)
+                .Include(v => v.IdVentaNavigation)
+                .Where(dv =>
+                    dv.IdVentaNavigation.FechaRegistro.Value.Date >= FechaInicio.Date &&
+                    dv.IdVentaNavigation.FechaRegistro.Value.Date <= FechaFin.Date)
+                .ToListAsync();
+            listaResumen = listaResumen
+            .Where(item => item.IdVentaNavigation.FechaRegistro.Value.DayOfWeek == selectedDay)
+            .ToList();
+            return listaResumen;
+        }
         public async Task<Venta> GetByIdAsync(string id)
         {
             return await _dbcontext.Venta.Where(e => e.NumeroDocumento == id)

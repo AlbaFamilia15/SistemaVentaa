@@ -1,0 +1,30 @@
+<h2 mat-dialog-title><h2 mat-dialog-title>Days Filter</h2>
+</h2>
+<mat-dialog-content>
+
+    <mat-grid-list cols="1" rowHeight="80px">
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Days</mat-label>
+          <mat-select [(value)]="selectedDay" (selectionChange)="onDaySelect($event.value)">
+            <mat-option *ngFor="let item of daysList" [value]="item.id">
+              {{item.descripcion}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      
+
+
+
+    </mat-grid-list>
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>Volver</button>
+  <button  mat-raised-button color="primary"  (click)="apply()">
+   Apply
+  </button>
+</mat-dialog-actions>

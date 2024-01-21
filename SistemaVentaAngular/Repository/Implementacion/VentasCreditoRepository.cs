@@ -129,6 +129,20 @@ namespace SistemaVentaAngular.Repository.Implementacion
 
             return listaResumen;
         }
+        public async Task<List<DetalleVentasCredito>> DayReporte(DateTime FechaInicio, DateTime FechaFin, int day)
+        {
+            DayOfWeek selectedDay = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), day);
+
+            List<DetalleVentasCredito> listaResumen = await _dbcontext.DetalleVentasCredito
+                .Include(p => p.IdProductoNavigation)
+                .Include(v => v.IdVentasCreditoNavigation)
+                .Where(dv => dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date >= FechaInicio.Date && dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date <= FechaFin.Date)
+                .ToListAsync();
+            listaResumen = listaResumen
+            .Where(item => item.IdVentasCreditoNavigation.FechaRegistro.Value.DayOfWeek == selectedDay)
+             .ToList();
+            return listaResumen;
+        }
 
         public async Task<VentasCredito> Update(VentasCredito entidad)
         {

@@ -15,4 +15,9 @@ export interface Producto {
   precio15ML:string,
   precio30ML:string,
   precio100ML:string,
+  cost5ML:number,
+  cost10ML:number,
+  cost15ML:number,
+  cost30ML:number,
+  cost100ML:number,
 }

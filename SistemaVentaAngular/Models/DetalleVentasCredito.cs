@@ -10,7 +10,7 @@
         public decimal? Total { get; set; }
         public decimal? CantidadML { get; set; }
         public string? CustomerName { get; set; }
-
+        public int? Cost { get; set; }
         public virtual Producto? IdProductoNavigation { get; set; }
         public virtual VentasCredito? IdVentasCreditoNavigation { get; set; }
     }

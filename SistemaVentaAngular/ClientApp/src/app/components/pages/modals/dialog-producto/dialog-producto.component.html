@@ -32,7 +32,7 @@
         </mat-form-field>
       </mat-grid-tile>
 
-      <mat-grid-tile  *ngIf="!isPriceML">
+      <mat-grid-tile *ngIf="!isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>Precio</mat-label>
           <input matInput autocomplete="off" formControlName="precio" type="text">
@@ -43,39 +43,39 @@
       <mat-grid-tile *ngIf="isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>Precio 5ML</mat-label>
-          <input matInput autocomplete="off" formControlName="precio5ML" type="text" >
+          <input matInput autocomplete="off" formControlName="precio5ML" type="text">
           <mat-icon matSuffix>attach_money</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
       <mat-grid-tile *ngIf="isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>Precio 10ML</mat-label>
-          <input matInput autocomplete="off" formControlName="precio10ML" type="text" >
+          <input matInput autocomplete="off" formControlName="precio10ML" type="text">
           <mat-icon matSuffix>attach_money</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
       <mat-grid-tile *ngIf="isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>Precio 15ML</mat-label>
-          <input matInput autocomplete="off" formControlName="precio15ML" type="text" >
+          <input matInput autocomplete="off" formControlName="precio15ML" type="text">
           <mat-icon matSuffix>attach_money</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
       <mat-grid-tile *ngIf="isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>Precio 30ML</mat-label>
-          <input matInput autocomplete="off" formControlName="precio30ML" type="text" >
+          <input matInput autocomplete="off" formControlName="precio30ML" type="text">
           <mat-icon matSuffix>attach_money</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
       <mat-grid-tile *ngIf="isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>Precio 100ML</mat-label>
-          <input matInput autocomplete="off" formControlName="precio100ML" type="text" >
+          <input matInput autocomplete="off" formControlName="precio100ML" type="text">
           <mat-icon matSuffix>attach_money</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
-      <mat-grid-tile  *ngIf="!isPriceML">
+      <mat-grid-tile *ngIf="!isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>Precio Neto</mat-label>
           <input matInput autocomplete="off" formControlName="precion" type="text">
@@ -104,7 +104,7 @@
     </mat-form-field>
   </mat-grid-tile>-->
 
-      <mat-grid-tile  *ngIf="!isPriceML">
+      <mat-grid-tile *ngIf="!isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>NetPrice</mat-label>
           <input matInput autocomplete="off" formControlName="netPrice" type="number">
@@ -112,10 +112,47 @@
         </mat-form-field>
       </mat-grid-tile>
 
-      <mat-grid-tile>
+      <mat-grid-tile *ngIf="!isPriceML">
         <mat-form-field appearance="outline">
           <mat-label>Cost</mat-label>
           <input matInput autocomplete="off" formControlName="cost" type="number">
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Cost 5ML</mat-label>
+          <input matInput autocomplete="off" formControlName="cost5ML" type="text">
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Cost 10ML</mat-label>
+          <input matInput autocomplete="off" formControlName="cost10ML" type="text">
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Cost 15ML</mat-label>
+          <input matInput autocomplete="off" formControlName="cost15ML" type="text">
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Cost 30ML</mat-label>
+          <input matInput autocomplete="off" formControlName="cost30ML" type="text">
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Cost 100ML</mat-label>
+          <input matInput autocomplete="off" formControlName="cost100ML" type="text">
           <mat-icon matSuffix>attach_money</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
@@ -147,7 +184,11 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close>Volver</button>
-  <button mat-raised-button color="primary" [disabled]="formProducto?.invalid" (click)="agregarEditarProducto()">
+  <button *ngIf="!isPriceML" mat-raised-button color="primary" [disabled]="formProducto.invalid "
+    (click)="agregarEditarProducto()">
+    {{accionBoton}}
+  </button>
+  <button *ngIf="isPriceML" mat-raised-button color="primary" [disabled]=false (click)="agregarEditarProducto()">
     {{accionBoton}}
   </button>
 </mat-dialog-actions>

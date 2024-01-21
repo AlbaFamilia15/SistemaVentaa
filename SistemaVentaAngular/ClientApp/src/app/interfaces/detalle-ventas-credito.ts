@@ -6,4 +6,5 @@ export interface DetalleVentasCredito {
   precioTexto: string,
   totalTexto: string,
   customerName: string;
+  cost?: string;
 }

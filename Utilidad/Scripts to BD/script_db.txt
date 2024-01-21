@@ -142,3 +142,22 @@ ALTER TABLE [dbo].[Producto] ADD precio30ML decimal(10,2)
 GO
 ALTER TABLE [dbo].[Producto] ADD precio100ML decimal(10,2) 
 GO
+
+
+  
+ALTER TABLE [dbo].[Producto] ADD cost5ML int NULL 
+GO
+ALTER TABLE [dbo].[Producto] ADD cost10ML int NULL
+GO
+ALTER TABLE [dbo].[Producto] ADD cost15ML int NULL
+GO
+ALTER TABLE [dbo].[Producto] ADD cost30ML int NULL
+GO
+ALTER TABLE [dbo].[Producto] ADD cost100ML int NULL
+GO
+
+ALTER TABLE DetalleVenta ADD Cost int NULL
+GO
+
+ALTER TABLE DetalleVentasCredito ADD Cost int NULL
+GO

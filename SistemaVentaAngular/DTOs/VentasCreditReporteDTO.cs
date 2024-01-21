@@ -15,7 +15,7 @@ namespace SistemaVentaAngular.DTOs
         public string? Total { get; set; }
         public string? customerName { get; set; }
         public bool? isPaid { get; set; }
-        public int? Cost { get; set; }
+        public string? Cost { get; set; }
 
     }
 }

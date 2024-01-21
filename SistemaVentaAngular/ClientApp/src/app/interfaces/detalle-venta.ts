@@ -4,5 +4,6 @@ export interface DetalleVenta {
   cantidad: number,
   cantidadML: string,
   precioTexto: string,
-  totalTexto:string
+  totalTexto:string,
+  cost?: string,
 }

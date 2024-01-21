@@ -28,6 +28,11 @@ namespace SistemaVentaAngular.Models
         public string? image { get; set; }
         public int? Cost { get; set; }
         public string? imagePath { get; set; }
+        public int? Cost5ML { get; set; }
+        public int? Cost10ML { get; set; }
+        public int? Cost15ML { get; set; }
+        public int? Cost30ML { get; set; }
+        public int? Cost100ML { get; set; }
         public virtual Categoria? IdCategoriaNavigation { get; set; }
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
         public virtual ICollection<DetalleVentasCredito> DetalleVentasCredito { get; set; }

@@ -8,5 +8,6 @@
         public string? PrecioTexto { get; set; }
         public string? TotalTexto { get; set; }
         public string? CantidadML { get; set; }
+        public string? Cost { get; set; }
     }
 }

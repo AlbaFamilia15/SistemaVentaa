@@ -109,25 +109,33 @@ export class VenderComponent implements OnInit {
   onSubmitForm() {
     this.checkBoxValue = false;
     let Price = this.agregarProducto.precio;
+    let cost = this.agregarProducto.cost;
     let isCategoria: boolean = false;
     if (this.agregarProducto.idCategoria == 2) {
       if (this.formGroup.value.cantidad == 5) {
         isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio5ML;
+        this.agregarProducto.cost = this.agregarProducto.cost5ML;
       } else if (this.formGroup.value.cantidad == 10) {
         isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio10ML;
+        this.agregarProducto.cost = this.agregarProducto.cost10ML;
       } else if (this.formGroup.value.cantidad == 15) {
         isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio15ML;
+        this.agregarProducto.cost = this.agregarProducto.cost15ML;
       } else if (this.formGroup.value.cantidad == 30) {
         isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio30ML;
+        this.agregarProducto.cost = this.agregarProducto.cost30ML;
       } else if (this.formGroup.value.cantidad == 100) {
         isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio100ML;
+        this.agregarProducto.cost = this.agregarProducto.cost100ML;
       } else {
         this.agregarProducto.precio = Price;
+        this.agregarProducto.cost = cost;
+
       }
     }
     this.agregarProducto.precio = this.offerPrice ? this.agregarProducto.netPrice.toString() : this.agregarProducto.precio;
@@ -145,6 +153,7 @@ export class VenderComponent implements OnInit {
     const _cantidad: number = this.formGroup.value.cantidad;
     const _cantidadML: number = parseFloat(String(this.stock));
     const _precio: number = parseFloat(this.agregarProducto.precio);
+    const _cost: number = this.agregarProducto.cost;
     const _total: number = isCategoria ? _precio :_cantidad * _precio;
     this.totalPagar =  _total;
 
@@ -154,7 +163,8 @@ export class VenderComponent implements OnInit {
       cantidad: _cantidad,
       cantidadML: String(_cantidadML),
       precioTexto: String(_precio.toFixed(2)),
-      totalTexto: String(_total.toFixed(2))
+      totalTexto: String(_total.toFixed(2)),
+      cost: String(_cost.toFixed(2))
     });
 
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);

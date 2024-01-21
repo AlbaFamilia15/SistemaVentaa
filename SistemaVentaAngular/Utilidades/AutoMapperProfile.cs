@@ -88,6 +88,9 @@ namespace SistemaVentaAngular.Utilidades
                     destino.TotalTexto,
                     opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-PE")))
                 ).ForMember(destino =>
+                    destino.Cost,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.Cost.Value, new CultureInfo("es-PE")))
+                ).ForMember(destino =>
                     destino.CantidadML,
                     opt => opt.MapFrom(origen => Convert.ToString(origen.CantidadML.Value, new CultureInfo("es-PE")))
                 );
@@ -100,6 +103,10 @@ namespace SistemaVentaAngular.Utilidades
                 .ForMember(destino =>
                     destino.Total,
                     opt => opt.MapFrom(origen => Convert.ToDecimal(origen.TotalTexto, new CultureInfo("es-PE")))
+                )
+                .ForMember(destino =>
+                    destino.Cost,
+                    opt => opt.MapFrom(origen => Convert.ToDecimal(origen.Cost, new CultureInfo("es-PE")))
                 )
                 .ForMember(destino =>
                     destino.CantidadML,
@@ -144,6 +151,9 @@ namespace SistemaVentaAngular.Utilidades
                 .ForMember(destino =>
                     destino.Precio,
                     opt => opt.MapFrom(origen => Convert.ToDecimal(origen.PrecioTexto, new CultureInfo("es-PE")))
+                ).ForMember(destino =>
+                    destino.Cost,
+                    opt => opt.MapFrom(origen => Convert.ToDecimal(origen.Cost, new CultureInfo("es-PE")))
                 )
                 .ForMember(destino =>
                     destino.Total,
@@ -175,7 +185,7 @@ namespace SistemaVentaAngular.Utilidades
                 ) 
                 .ForMember(destino =>
                     destino.Cost,
-                    opt => opt.MapFrom(origen => origen.IdProductoNavigation.Cost)
+                    opt => opt.MapFrom(origen => origen.Cost)
                 )
                 .ForMember(destino =>
                     destino.Precio,
@@ -210,12 +220,11 @@ namespace SistemaVentaAngular.Utilidades
                     opt => opt.MapFrom(origen => origen.IdProductoNavigation.Nombre)
                 )
                 .ForMember(destino =>
-                    destino.Cost,
-                    opt => opt.MapFrom(origen => origen.IdProductoNavigation.Cost)
-                )
-                .ForMember(destino =>
                     destino.Precio,
                     opt => opt.MapFrom(origen => Convert.ToString(origen.Precio, new CultureInfo("es-PE")))
+                ) .ForMember(destino =>
+                    destino.Cost,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.Cost, new CultureInfo("es-PE")))
                 )
                 .ForMember(destino =>
                     destino.Total,
