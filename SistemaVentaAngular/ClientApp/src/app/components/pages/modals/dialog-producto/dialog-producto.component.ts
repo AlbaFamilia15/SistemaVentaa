@@ -143,7 +143,7 @@ export class DialogProductoComponent implements OnInit {
       precio30ML: this.formProducto.value.precio30ML != "" ? this.formProducto.value.precio30ML : 0,
       precio100ML: this.formProducto.value.precio100ML != "" ? this.formProducto.value.precio100ML : 0,
       stock: this.formProducto.value.stock,
-      netPrice: this.formProducto.value.netPrice != "" ? this.productoEditar.netPrice : 0,
+      netPrice: this.formProducto.value.netPrice != "" ? this.formProducto.value.netPrice : 0,
       isCantidad: this.formProducto.value.isCantidad,
       cost: this.formProducto.value.cost != "" ? this.formProducto.value.cost : 0,
       cost5ML: this.formProducto.value.cost5ML != "" ? this.formProducto.value.cost5ML : 0,
