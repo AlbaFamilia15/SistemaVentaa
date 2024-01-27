@@ -151,7 +151,7 @@ export class CreditSaleComponent implements OnInit {
     const _cantidad: number = this.formGroup.value.cantidad;
     const _cantidadML: number = parseFloat(String(this.stock));
     const _precio: number = parseFloat(this.agregarProducto.precio);
-    const _cost: number = this.agregarProducto.cost;
+    const _cost: any = this.agregarProducto.cost;
     const _total: number = isCategoria ? _precio :_cantidad * _precio;
     // this.totalPagar = this.totalPagar + _total;
     const _customerName: string = this.formGroup.value.customerName;
@@ -164,7 +164,7 @@ export class CreditSaleComponent implements OnInit {
       precioTexto: String(_precio.toFixed(2)),
       totalTexto: String(_total.toFixed(2)),
       customerName: _customerName,
-      cost: String(_cost.toFixed(2))
+      cost: _cost ? String(_cost.toFixed(2)) : _cost
     });
 
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
