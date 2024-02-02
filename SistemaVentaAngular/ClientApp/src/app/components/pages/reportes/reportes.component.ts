@@ -83,12 +83,12 @@ export class ReportesComponent implements OnInit {
 
           this.ELEMENT_DATA = data.value;
           this.dataSource.data = data.value;
-          if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas + '.00' }
+          if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })  }
           this.totalBeneficio = data.value.reduce((total: any, element: { cost: number; total: number; }) => {
             const beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
             return total + Number(beneficio);
           }, 0);
-          this.totalBeneficio = 'RD$ ' + this.totalBeneficio.toFixed(2)
+          this.totalBeneficio = 'RD$ ' + this.totalBeneficio.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}) 
         }
         else {
           this.ELEMENT_DATA = [];
@@ -138,12 +138,12 @@ export class ReportesComponent implements OnInit {
 
               this.ELEMENT_DATA = data.value;
               this.dataSource.data = data.value;
-              if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas + '.00' }
+              if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}) }
               this.totalBeneficio = data.value.reduce((total: any, element: { cost: number; total: number; }) => {
                 const beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
                 return total + Number(beneficio);
               }, 0);
-              this.totalBeneficio = 'RD$ ' + this.totalBeneficio.toFixed(2)
+              this.totalBeneficio = 'RD$ ' + this.totalBeneficio.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}) 
             }
             else {
               this.ELEMENT_DATA = [];

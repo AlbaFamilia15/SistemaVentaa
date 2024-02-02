@@ -37,7 +37,7 @@
 
       </mat-grid-list>
 
-      <mat-grid-list cols="5" rowHeight="80px">
+      <mat-grid-list cols="4" rowHeight="80px">
         <!-- <mat-grid-tile></mat-grid-tile> -->
         <mat-grid-tile>
           <mat-label>Offer price</mat-label>
@@ -74,9 +74,24 @@
           </mat-form-field>
 
         </mat-grid-tile>
-        <mat-grid-tile style="text-align:end">
+        <!-- <mat-grid-tile style="text-align:end">
           <button mat-raised-button color="primary" style="width: 80%;">Total: S/. {{totalPagar ? 'RD$ ' +
             totalPagar.toFixed(2) : totalPagar.toFixed(2)}}</button>
+        </mat-grid-tile>
+        <mat-grid-tile style="text-align:end">
+          <button mat-raised-button color="primary" style="width: 80%;">Total Ventas: S/. {{totalVentas ? 'RD$ ' +
+            totalVentas.toFixed(2) : totalVentas.toFixed(2)}}</button>
+        </mat-grid-tile> -->
+      </mat-grid-list>
+
+      <mat-grid-list cols="5" rowHeight="80px">
+        <mat-grid-tile style="text-align:end">
+          <button mat-raised-button color="primary" style="width: 80%;">Total: S/. {{totalPagar ? 'RD$ ' +
+            totalPagar.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2})  : totalPagar.toFixed(2)}}</button>
+        </mat-grid-tile>
+        <mat-grid-tile style="text-align:end">
+          <button mat-raised-button color="primary" style="width: 100%;">Total Ventas: S/. {{totalVentas ? 'RD$ ' +
+            totalVentas.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}) : totalVentas.toFixed(2)}}</button>
         </mat-grid-tile>
       </mat-grid-list>
     </form>

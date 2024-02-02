@@ -71,7 +71,11 @@
       </mat-grid-tile>
       <mat-grid-tile style="text-align:end">
         <button mat-raised-button color="primary" style="width: 80%;">Total: S/. {{totalPagar ? 'RD$ ' +
-          totalPagar.toFixed(2) : totalPagar.toFixed(2)}}</button>
+          totalPagar.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2})  : totalPagar.toFixed(2)}}</button>
+      </mat-grid-tile>
+      <mat-grid-tile style="text-align:end">
+        <button mat-raised-button color="primary" style="width: 100%;">Total Ventas: S/. {{totalVentas ? 'RD$ ' +
+          totalVentas.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}) : totalVentas.toFixed(2)}}</button>
       </mat-grid-tile>
     </mat-grid-list>
 

@@ -99,7 +99,7 @@ namespace SistemaVentaAngular.Controllers
             {
 
                 List<VentasCreditReporteDTO> listaReporte = _mapper.Map<List<VentasCreditReporteDTO>>(await _ventasCreditoRepository.Reporte(_fechaInicio, _fechaFin));
-                var sum = listaReporte.Select(x => x.TotalVenta).ToList();
+                var sum = listaReporte.Select(x => x.Total).ToList();
               
                 decimal totalSum = sum.Sum(report => Convert.ToDecimal(report));
 
@@ -131,7 +131,7 @@ namespace SistemaVentaAngular.Controllers
             {
 
                 List<VentasCreditReporteDTO> listaReporte = _mapper.Map<List<VentasCreditReporteDTO>>(await _ventasCreditoRepository.DayReporte(_fechaInicio, _fechaFin,(int)day));
-                var sum = listaReporte.Select(x => x.TotalVenta).ToList();
+                var sum = listaReporte.Select(x => x.Total).ToList();
               
                 decimal totalSum = sum.Sum(report => Convert.ToDecimal(report));
 

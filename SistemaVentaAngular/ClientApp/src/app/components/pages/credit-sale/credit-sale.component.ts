@@ -25,6 +25,7 @@ export class CreditSaleComponent implements OnInit {
   agregarProducto!: Producto;
   tipodePago: string = "Efectivo";
   totalPagar: number = 0;
+  totalVentas: number = 0;
 
   formGroup: FormGroup;
   displayedColumns: string[] = ['producto', 'cantidad', 'precio', 'total', 'customerName', 'accion'];
@@ -152,9 +153,10 @@ export class CreditSaleComponent implements OnInit {
     const _cantidadML: number = parseFloat(String(this.stock));
     const _precio: number = parseFloat(this.agregarProducto.precio);
     const _cost: any = this.agregarProducto.cost;
-    const _total: number = isCategoria ? _precio :_cantidad * _precio;
+    const _total: number = isCategoria ? _precio : _cantidad * _precio;
     // this.totalPagar = this.totalPagar + _total;
     const _customerName: string = this.formGroup.value.customerName;
+    this.totalVentas =  _total + this.totalVentas;
 
     this.ELEMENT_DATA.push({
       idProducto: this.agregarProducto.idProducto,
@@ -181,6 +183,7 @@ export class CreditSaleComponent implements OnInit {
   eliminarProducto(item: DetalleVentasCredito) {
 
     this.totalPagar = this.totalPagar - parseFloat(item.totalTexto);
+    this.totalVentas = this.totalVentas - parseFloat(item.totalTexto);
     this.ELEMENT_DATA = this.ELEMENT_DATA.filter(p => p.idProducto != item.idProducto)
 
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -192,10 +195,12 @@ export class CreditSaleComponent implements OnInit {
 
       this.deshabilitado = true;
 
-
+      const totalSum = this.ELEMENT_DATA.reduce((acc, record) => {
+        return acc + parseFloat(record.totalTexto);
+      }, 0);
       const ventasCreditoDto: VentasCredito = {
         tipoPago: this.tipodePago,
-        totalTexto: String(this.totalPagar.toFixed(2)),
+        totalTexto: String(totalSum.toFixed(2)),
         cantidadML: this.cantidadML,
         detalleVentasCredito: this.ELEMENT_DATA,
         isPaid: false,
@@ -209,7 +214,7 @@ export class CreditSaleComponent implements OnInit {
             this.ELEMENT_DATA = [];
             this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
             this.tipodePago = "Efectivo", "Transferencia";
-
+            this.totalVentas = 0.00;
             this.dialog.open(DialogResultadoVentaComponent, {
               data: {
                 numero: data.value.numeroDocumento
