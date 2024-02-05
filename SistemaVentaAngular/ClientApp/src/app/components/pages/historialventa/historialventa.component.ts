@@ -40,7 +40,7 @@ export class HistorialventaComponent implements OnInit {
   ]
 
   ELEMENT_DATA: Venta[] = [];
-  displayedColumns: string[] = ['numeroVenta', 'tipoPago','total', 'accion'];
+  displayedColumns: string[] = ['numeroVenta', 'tipoPago', 'total', 'accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -53,7 +53,7 @@ export class HistorialventaComponent implements OnInit {
 
     this.formGroup = this.fb.group({
       buscarPor: ['fecha'],
-      numero:[''],
+      numero: [''],
       fechaInicio: [''],
       fechaFin: ['']
     })
@@ -102,8 +102,10 @@ export class HistorialventaComponent implements OnInit {
           this.dataSource.data = data.value;
 
         }
-        else
+        else {
+          this.dataSource.data = data.value;
           this._snackBar.open("No se encontraron datos", 'Oops!', { duration: 2000 });
+        }
       },
       error: (e) => {
       },
@@ -133,6 +135,7 @@ export class HistorialventaComponent implements OnInit {
           next: (data) => {
 
             if (data.status) {
+              this.onSubmitForm();
               this.mostrarAlerta("El venta fue eliminado", "Listo!")
             } else {
               this.mostrarAlerta("No se pudo eliminar el venta", "Error");
@@ -148,7 +151,7 @@ export class HistorialventaComponent implements OnInit {
       }
 
 
-    
+
     });
   }
   mostrarAlerta(mensaje: string, tipo: string) {

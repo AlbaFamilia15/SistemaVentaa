@@ -96,10 +96,11 @@
 
         <ng-container matColumnDef="totalProducto">
           <th mat-header-cell *matHeaderCellDef> Beneficio </th>
-          <td mat-cell *matCellDef="let element"> {{element.cost ?(element.cost > element.total ? 'RD$ ' + (element.cost
-            - element.total).toFixed(2) : 'RD$ ' + (element.total - element.cost).toFixed(2)): (element.total ? 'RD$ ' +
-            element.total : element.total)}} </td>
-        </ng-container>
+          <!-- <td mat-cell *matCellDef="let element"> {{element.cost ?((element.cost * element.cantidad) > element.total ? 'RD$ ' + ((element.cost * element.cantidad)
+            - element.total).toFixed(2) : 'RD$ ' + (element.total - (element.cost * element.cantidad)).toFixed(2)): (element.total ? 'RD$ ' +
+            element.total : element.total)}} </td> -->
+            <td mat-cell *matCellDef="let element"> {{'RD$ ' +element.beneficio}} </td>
+          </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

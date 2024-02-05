@@ -77,14 +77,27 @@ export class VentaCreditoReporteComponent implements OnInit {
       next: (data) => {
 
         if (data.status) {
-
+          data.value.forEach((element: any) => {
+            if (element.isPaid) {
+              if (element.cost && element.cantidad) {
+                const calculatedValue = element.idCategoria !== 2 ? element.cost * element.cantidad : element.cost;
+                const difference = calculatedValue > Number(element.total) ? calculatedValue - element.total : element.total - calculatedValue;
+                element.beneficio = difference.toFixed(2);
+              } else {
+                element.beneficio = element.total ? element.total : '0.00';
+              }
+            } else {
+              element.beneficio = '0.00';
+            }
+          });
           this.ELEMENT_DATA = data.value;
           this.dataSource.data = data.value;
           if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }
-          this.totalBeneficio = data.value.reduce((total: any, element: { isPaid: any; cost: number; total: number; }) => {
+          this.totalBeneficio = data.value.reduce((total: any, element: any) => {
             let beneficio = 0.00;
             if (element.isPaid) {
-              beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
+              // beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
+              beneficio = element.beneficio
             }
             return total + Number(beneficio);
           }, 0);
@@ -136,13 +149,27 @@ export class VentaCreditoReporteComponent implements OnInit {
 
             if (data.status) {
 
+              data.value.forEach((element: any) => {
+                if (element.isPaid) {
+                  if (element.cost && element.cantidad) {
+                    const calculatedValue = element.idCategoria !== 2 ? element.cost * element.cantidad : element.cost;
+                    const difference = calculatedValue > Number(element.total)? calculatedValue - element.total : element.total - calculatedValue;
+                    element.beneficio = difference.toFixed(2);
+                  } else {
+                    element.beneficio = element.total ? element.total : '0.00';
+                  }
+                } else {
+                  element.beneficio = '0.00';
+                }
+              });
               this.ELEMENT_DATA = data.value;
               this.dataSource.data = data.value;
               if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }
-              this.totalBeneficio = data.value.reduce((total: any, element: { isPaid: any; cost: number; total: number; }) => {
+              this.totalBeneficio = data.value.reduce((total: any, element: any) => {
                 let beneficio = 0.00;
                 if (element.isPaid) {
-                  beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
+                  // beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
+                  beneficio = element.beneficio
                 }
                 return total + Number(beneficio);
               }, 0);

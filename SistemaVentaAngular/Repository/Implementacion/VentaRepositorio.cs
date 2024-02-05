@@ -78,7 +78,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
 
                 return query.Where(v =>
                     v.FechaRegistro.Value.Date >= fech_Inicio.Date &&
-                    v.FechaRegistro.Value.Date <= fech_Fin.Date
+                    v.FechaRegistro.Value.Date <= fech_Fin.Date && v.isDelete != true
                 )
                 .Include(dv => dv.DetalleVenta)
                 .ThenInclude(p => p.IdProductoNavigation)
@@ -87,7 +87,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
             }
             else
             {
-                return query.Where(v => v.NumeroDocumento == numeroVenta)
+                return query.Where(v => v.NumeroDocumento == numeroVenta && v.isDelete != true)
                   .Include(dv => dv.DetalleVenta)
                   .ThenInclude(p => p.IdProductoNavigation)
                   .ToList();
@@ -101,21 +101,21 @@ namespace SistemaVentaAngular.Repository.Implementacion
             List<DetalleVenta> listaResumen = await _dbcontext.DetalleVenta
                 .Include(p => p.IdProductoNavigation)
                 .Include(v => v.IdVentaNavigation)
-                .Where(dv => dv.IdVentaNavigation.FechaRegistro.Value.Date >= FechaInicio.Date && dv.IdVentaNavigation.FechaRegistro.Value.Date <= FechaFin.Date)
+                .Where(dv => dv.IdVentaNavigation.FechaRegistro.Value.Date >= FechaInicio.Date && dv.IdVentaNavigation.FechaRegistro.Value.Date <= FechaFin.Date && dv.IdVentaNavigation.isDelete != true)
                 .ToListAsync();
 
             return listaResumen;
         }
         public async Task<List<DetalleVenta>> DayReporte(DateTime FechaInicio, DateTime FechaFin, int day)
         {
-              DayOfWeek selectedDay = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), day);
+            DayOfWeek selectedDay = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), day);
 
             List<DetalleVenta> listaResumen = await _dbcontext.DetalleVenta
                 .Include(p => p.IdProductoNavigation)
                 .Include(v => v.IdVentaNavigation)
                 .Where(dv =>
                     dv.IdVentaNavigation.FechaRegistro.Value.Date >= FechaInicio.Date &&
-                    dv.IdVentaNavigation.FechaRegistro.Value.Date <= FechaFin.Date)
+                    dv.IdVentaNavigation.FechaRegistro.Value.Date <= FechaFin.Date && dv.IdVentaNavigation.isDelete != true)
                 .ToListAsync();
             listaResumen = listaResumen
             .Where(item => item.IdVentaNavigation.FechaRegistro.Value.DayOfWeek == selectedDay)
@@ -131,6 +131,15 @@ namespace SistemaVentaAngular.Repository.Implementacion
         public async Task<bool> DeleteAsync(string id)
         {
             var entity = await _dbcontext.Venta.Where(x => x.NumeroDocumento.Equals(id)).FirstOrDefaultAsync();
+            var detalleVenta = await _dbcontext.DetalleVenta.Where(x => x.IdVenta.Equals(entity.IdVenta)).ToListAsync();
+            foreach (DetalleVenta dv in detalleVenta)
+            {
+                Producto producto_encontrado = _dbcontext.Productos.Where(p => p.IdProducto == dv.IdProducto).First();
+
+                producto_encontrado.Stock = producto_encontrado.Stock + dv.Cantidad;
+                _dbcontext.Productos.Update(producto_encontrado);
+            }
+            await _dbcontext.SaveChangesAsync();
             if (entity != null)
             {
                 entity.isDelete = true;

@@ -80,15 +80,35 @@ export class ReportesComponent implements OnInit {
       next: (data) => {
 
         if (data.status) {
-
+          data.value.forEach((element: any) => {
+            if (element.cost) {
+              if (element.idCategoria !== 2) {
+                const calculatedValue = element.cost * element.cantidad;
+                const newValue = (calculatedValue > Number(element.total)) ?
+                  (calculatedValue - element.total).toFixed(2) :
+                  (element.total - calculatedValue).toFixed(2);
+                element.beneficio =  newValue;
+              }
+              else {
+                const calculatedValue = element.cost;
+                const newValue = (calculatedValue > Number(element.total)) ?
+                  (calculatedValue - element.total).toFixed(2) :
+                  (element.total - calculatedValue).toFixed(2);
+                element.beneficio =  newValue;
+              }
+            } else {
+              element.beneficio = element.total ?  element.total : '0.00';
+            }
+          });
           this.ELEMENT_DATA = data.value;
           this.dataSource.data = data.value;
-          if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })  }
-          this.totalBeneficio = data.value.reduce((total: any, element: { cost: number; total: number; }) => {
-            const beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
+          if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }
+          this.totalBeneficio = data.value.reduce((total: any, element: any) => {
+            // const beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
+            const beneficio = element.beneficio;
             return total + Number(beneficio);
           }, 0);
-          this.totalBeneficio = 'RD$ ' + this.totalBeneficio.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}) 
+          this.totalBeneficio = 'RD$ ' + this.totalBeneficio.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
         }
         else {
           this.ELEMENT_DATA = [];
@@ -136,14 +156,34 @@ export class ReportesComponent implements OnInit {
 
             if (data.status) {
 
+              data.value.forEach((element: any) => {
+                if (element.cost) {
+                  if (element.idCategoria !== 2) {
+                    const calculatedValue = element.cost * element.cantidad;
+                    const newValue = (calculatedValue > element.total) ?
+                      (calculatedValue - Number(element.total)).toFixed(2) :
+                      (element.total - calculatedValue).toFixed(2);
+                    element.beneficio =  newValue;
+                  }
+                  else {
+                    const calculatedValue = element.cost;
+                    const newValue = (calculatedValue > element.total) ?
+                      (calculatedValue - Number(element.total)).toFixed(2) :
+                      (element.total - calculatedValue).toFixed(2);
+                    element.beneficio =  newValue;
+                  }
+                } else {
+                  element.beneficio = element.total ?  element.total : '0.00';
+                }
+              });
               this.ELEMENT_DATA = data.value;
               this.dataSource.data = data.value;
-              if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}) }
+              if (data.totalVentas) { this.totalVentas = 'RD$ ' + data.totalVentas.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }
               this.totalBeneficio = data.value.reduce((total: any, element: { cost: number; total: number; }) => {
                 const beneficio = element.cost ? (element.cost > element.total ? element.cost - element.total : element.total - element.cost) : element.total;
                 return total + Number(beneficio);
               }, 0);
-              this.totalBeneficio = 'RD$ ' + this.totalBeneficio.toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}) 
+              this.totalBeneficio = 'RD$ ' + this.totalBeneficio.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
             }
             else {
               this.ELEMENT_DATA = [];

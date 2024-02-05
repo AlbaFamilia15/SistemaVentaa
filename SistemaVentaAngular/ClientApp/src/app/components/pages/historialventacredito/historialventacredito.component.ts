@@ -42,7 +42,7 @@ export class HistorialventacreditoComponent implements OnInit {
   ]
 
   ELEMENT_DATA: VentasCredito[] = [];
-  displayedColumns: string[] = ['numeroVenta','tipoPago', 'total', 'isPaid', 'customerName', 'accion'];
+  displayedColumns: string[] = ['numeroVenta', 'tipoPago', 'total', 'isPaid', 'customerName', 'accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -106,8 +106,10 @@ export class HistorialventacreditoComponent implements OnInit {
           this.dataSource.data = data.value;
 
         }
-        else
+        else {
+          this.dataSource.data = data.value;
           this._snackBar.open("No se encontraron datos", 'Oops!', { duration: 2000 });
+        }
       },
       error: (e) => {
       },
@@ -134,8 +136,8 @@ export class HistorialventacreditoComponent implements OnInit {
       _venta.isPaid = !newValue;
       if (result == "confirmation") {
         _venta.isPaid = newValue;
-      _venta.paidFecha =  moment(new Date()).format('DD/MM/YYYY')
-      console.log(_venta.paidFecha,'date')
+        _venta.paidFecha = moment(new Date()).format('DD/MM/YYYY')
+        console.log(_venta.paidFecha, 'date')
         this._ventaCreditoServicio.update(_venta).subscribe({
           next: (data) => {
             if (data.status) {
@@ -165,6 +167,7 @@ export class HistorialventacreditoComponent implements OnInit {
           next: (data) => {
 
             if (data.status) {
+              this.onSubmitForm();
               this.mostrarAlerta("El venta credito fue eliminado", "Listo!")
             } else {
               this.mostrarAlerta("No se pudo eliminar el venta credito", "Error");

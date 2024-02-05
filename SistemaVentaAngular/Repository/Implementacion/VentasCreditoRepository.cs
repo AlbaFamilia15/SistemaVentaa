@@ -77,7 +77,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
 
                 var result = query.Where(v =>
                     v.FechaRegistro.Value.Date >= fech_Inicio.Date &&
-                    v.FechaRegistro.Value.Date <= fech_Fin.Date
+                    v.FechaRegistro.Value.Date <= fech_Fin.Date && v.isDelete != true
                 )
                 .Include(dv => dv.DetalleVentasCredito)
                     .ThenInclude(p => p.IdProductoNavigation)
@@ -105,7 +105,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
 
                 if (!String.IsNullOrEmpty(customerName))
                 {
-                    result = result.FindAll(v => v.DetalleVentasCredito.Any(x => x.CustomerName == customerName));
+                    result = result.FindAll(v => v.DetalleVentasCredito.Any(x => x.CustomerName == customerName && v.isDelete != true));
                 }
 
                 result.ForEach(v =>
@@ -124,7 +124,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
             List<DetalleVentasCredito> listaResumen = await _dbcontext.DetalleVentasCredito
                 .Include(p => p.IdProductoNavigation)
                 .Include(v => v.IdVentasCreditoNavigation)
-                .Where(dv => dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date >= FechaInicio.Date && dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date <= FechaFin.Date)
+                .Where(dv => dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date >= FechaInicio.Date && dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date <= FechaFin.Date && dv.IdVentasCreditoNavigation.isDelete != true)
                 .ToListAsync();
 
             return listaResumen;
@@ -136,7 +136,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
             List<DetalleVentasCredito> listaResumen = await _dbcontext.DetalleVentasCredito
                 .Include(p => p.IdProductoNavigation)
                 .Include(v => v.IdVentasCreditoNavigation)
-                .Where(dv => dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date >= FechaInicio.Date && dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date <= FechaFin.Date)
+                .Where(dv => dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date >= FechaInicio.Date && dv.IdVentasCreditoNavigation.FechaRegistro.Value.Date <= FechaFin.Date && dv.IdVentasCreditoNavigation.isDelete != true)
                 .ToListAsync();
             listaResumen = listaResumen
             .Where(item => item.IdVentasCreditoNavigation.FechaRegistro.Value.DayOfWeek == selectedDay)
@@ -176,6 +176,15 @@ namespace SistemaVentaAngular.Repository.Implementacion
         public async Task<bool> DeleteAsync(string id)
         {
             var entity = await _dbcontext.VentasCredito.Where(x => x.NumeroDocumento.Equals(id)).FirstOrDefaultAsync();
+            var detalleVentasCredito = await _dbcontext.DetalleVentasCredito.Where(x => x.IdVentasCredito.Equals(entity.IdVentasCredito)).ToListAsync();
+            foreach (DetalleVentasCredito dv in detalleVentasCredito)
+            {
+                Producto producto_encontrado = _dbcontext.Productos.Where(p => p.IdProducto == dv.IdProducto).First();
+
+                producto_encontrado.Stock = producto_encontrado.Stock + dv.Cantidad;
+                _dbcontext.Productos.Update(producto_encontrado);
+            }
+            await _dbcontext.SaveChangesAsync();
             if (entity != null)
             {
                 entity.isDelete = true;
