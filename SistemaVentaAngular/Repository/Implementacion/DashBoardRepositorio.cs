@@ -25,7 +25,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
 
                     ultimaFecha = ultimaFecha.Value.AddDays(-7);
 
-                    IQueryable<Venta> query = _dbcontext.Venta.Where(v => v.FechaRegistro.Value.Date >= ultimaFecha.Value.Date);
+                    IQueryable<Venta> query = _dbcontext.Venta.Where(v => v.FechaRegistro.Value.Date >= ultimaFecha.Value.Date && v.isDelete != true);
                     total = query.Count();
                 }
 
@@ -47,7 +47,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
                 {
                     DateTime? ultimaFecha = _dbcontext.Venta.OrderByDescending(v => v.FechaRegistro).Select(v => v.FechaRegistro).First();
                     ultimaFecha = ultimaFecha.Value.AddDays(-7);
-                    IQueryable<Venta> query = _dbcontext.Venta.Where(v => v.FechaRegistro.Value.Date >= ultimaFecha.Value.Date);
+                    IQueryable<Venta> query = _dbcontext.Venta.Where(v => v.FechaRegistro.Value.Date >= ultimaFecha.Value.Date && v.isDelete != true);
 
                     resultado = query
                          .Select(v => v.Total)
@@ -89,7 +89,7 @@ namespace SistemaVentaAngular.Repository.Implementacion
                     DateTime? ultimaFecha = _dbcontext.Venta.OrderByDescending(v => v.FechaRegistro).Select(v => v.FechaRegistro).First();
                     ultimaFecha = ultimaFecha.Value.AddDays(-7);
 
-                    IQueryable<Venta> query = _dbcontext.Venta.Where(v => v.FechaRegistro.Value.Date >= ultimaFecha.Value.Date);
+                    IQueryable<Venta> query = _dbcontext.Venta.Where(v => v.FechaRegistro.Value.Date >= ultimaFecha.Value.Date && v.isDelete != true);
 
                     resultado = query
                         .GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
@@ -141,24 +141,24 @@ namespace SistemaVentaAngular.Repository.Implementacion
                     switch (filtertype)
                     {
                         case "Diario":
-                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date == today.Date).GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
+                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date == today.Date && v.isDelete!= true).GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
                         .Select(dv => new { fecha = dv.Key.ToString("dd/MM/yyyy"), total = dv.Count() })
                         .ToDictionary(keySelector: r => r.fecha, elementSelector: r => r.total);
                             break;
                         case "Semanal":
-                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= thisWeekStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date).GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
+                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= thisWeekStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date && v.isDelete != true).GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
                         .Select(dv => new { fecha = dv.Key.ToString("dd/MM/yyyy"), total = dv.Count() })
                         .ToDictionary(keySelector: r => r.fecha, elementSelector: r => r.total);
                             break;
                         case "Mensual":
-                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= thisMonthStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date).GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
+                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= thisMonthStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date && v.isDelete != true).GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
                         .Select(dv => new { fecha = dv.Key.ToString("dd/MM/yyyy"), total = dv.Count() })
                         .ToDictionary(keySelector: r => r.fecha, elementSelector: r => r.total);
                             break;
                         case "Rangopersonalizado":
                             if (startDate.HasValue && endDate.HasValue)
                             {
-                                resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= startDate.Value.Date && v.FechaRegistro.Value.Date <= endDate.Value.Date).GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
+                                resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= startDate.Value.Date && v.FechaRegistro.Value.Date <= endDate.Value.Date && v.isDelete != true).GroupBy(v => v.FechaRegistro.Value.Date).OrderBy(g => g.Key)
                         .Select(dv => new { fecha = dv.Key.ToString("dd/MM/yyyy"), total = dv.Count() })
                         .ToDictionary(keySelector: r => r.fecha, elementSelector: r => r.total);
                             }
@@ -214,18 +214,18 @@ namespace SistemaVentaAngular.Repository.Implementacion
                     switch (filtertype)
                     {
                         case "Diario":
-                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date == today.Date);
+                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date == today.Date && v.isDelete != true);
                             break;
                         case "Semanal":
-                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= thisWeekStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date);
+                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= thisWeekStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date && v.isDelete != true);
                             break;
                         case "Mensual":
-                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= thisMonthStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date);
+                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= thisMonthStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date && v.isDelete != true);
                             break;
                         case "Rangopersonalizado":
                             if (startDate.HasValue && endDate.HasValue)
                             {
-                                total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= startDate.Value.Date && v.FechaRegistro.Value.Date <= endDate.Value.Date);
+                                total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= startDate.Value.Date && v.FechaRegistro.Value.Date <= endDate.Value.Date && v.isDelete != true);
                             }
                             break;
                         default:
@@ -275,21 +275,21 @@ namespace SistemaVentaAngular.Repository.Implementacion
                     switch (filtertype)
                     {
                         case "Diario":
-                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date == today.Date).Select(v => v.Total)
+                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date == today.Date && v.isDelete != true).Select(v => v.Total)
                          .Sum(v => v.Value);
                             break;
                         case "Semanal":
-                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= thisWeekStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date).Select(v => v.Total)
+                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= thisWeekStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date && v.isDelete != true).Select(v => v.Total)
                          .Sum(v => v.Value);
                             break;
                         case "Mensual":
-                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= thisMonthStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date).Select(v => v.Total)
+                            resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= thisMonthStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date && v.isDelete != true).Select(v => v.Total)
                          .Sum(v => v.Value);
                             break;
                         case "Rangopersonalizado":
                             if (startDate.HasValue && endDate.HasValue)
                             {
-                                resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= startDate.Value.Date && v.FechaRegistro.Value.Date <= endDate.Value.Date).Select(v => v.Total)
+                                resultado = _ventaQuery.Where(v => v.FechaRegistro.Value.Date >= startDate.Value.Date && v.FechaRegistro.Value.Date <= endDate.Value.Date && v.isDelete != true).Select(v => v.Total)
                          .Sum(v => v.Value);
                             }
                             break;
@@ -402,18 +402,18 @@ namespace SistemaVentaAngular.Repository.Implementacion
                     switch (filtertype)
                     {
                         case "Diario":
-                            total = _ventaQuery.Count(v => v.PaidFecha.Value.Date == today.Date && v.IsPaid);
+                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date == today.Date && v.isDelete != true);
                             break;
                         case "Semanal":
-                            total = _ventaQuery.Count(v => v.PaidFecha.Value.Date >= thisWeekStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid);
+                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= thisWeekStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date &&  v.isDelete != true);
                             break;
                         case "Mensual":
-                            total = _ventaQuery.Count(v => v.PaidFecha.Value.Date >= thisMonthStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid);
+                            total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= thisMonthStart.Date && v.FechaRegistro.Value.Date <= thisMonthEnd.Date &&  v.isDelete != true);
                             break;
                         case "Rangopersonalizado":
                             if (startDate.HasValue && endDate.HasValue)
                             {
-                                total = _ventaQuery.Count(v => v.PaidFecha.Value.Date >= startDate.Value.Date && v.PaidFecha.Value.Date <= endDate.Value.Date && v.IsPaid);
+                                total = _ventaQuery.Count(v => v.FechaRegistro.Value.Date >= startDate.Value.Date && v.FechaRegistro.Value.Date <= endDate.Value.Date &&  v.isDelete != true);
                             }
                             break;
                         default:
@@ -462,21 +462,21 @@ namespace SistemaVentaAngular.Repository.Implementacion
                     switch (filtertype)
                     {
                         case "Diario":
-                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date == today.Date && v.IsPaid).Select(v => v.Total)
+                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date == today.Date && v.IsPaid && v.isDelete != true).Select(v => v.Total)
                          .Sum(v => v.Value);
                             break;
                         case "Semanal":
-                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= thisWeekStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid).Select(v => v.Total)
+                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= thisWeekStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid && v.isDelete != true).Select(v => v.Total)
                          .Sum(v => v.Value);
                             break;
                         case "Mensual":
-                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= thisMonthStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid).Select(v => v.Total)
+                            resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= thisMonthStart.Date && v.PaidFecha.Value.Date <= thisMonthEnd.Date && v.IsPaid && v.isDelete != true).Select(v => v.Total)
                          .Sum(v => v.Value);
                             break;
                         case "Rangopersonalizado":
                             if (startDate.HasValue && endDate.HasValue)
                             {
-                                resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= startDate.Value.Date && v.PaidFecha.Value.Date <= endDate.Value.Date && v.IsPaid).Select(v => v.Total)
+                                resultado = _ventaQuery.Where(v => v.PaidFecha.Value.Date >= startDate.Value.Date && v.PaidFecha.Value.Date <= endDate.Value.Date && v.IsPaid && v.isDelete != true).Select(v => v.Total)
                          .Sum(v => v.Value);
                             }
                             break;

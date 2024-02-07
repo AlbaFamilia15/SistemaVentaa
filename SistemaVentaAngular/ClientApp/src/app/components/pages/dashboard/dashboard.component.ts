@@ -120,12 +120,11 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         if (data.status) {
 
-          this.totalIngresos = data.value.totalIngresos;
-          this.totalPaidIngresos = data.value.totalPaidIngresos;
+          this.totalIngresos =Number(data.value.totalIngresos).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          this.totalPaidIngresos = Number(data.value.totalPaidIngresos).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
           this.totalVentas = data.value.totalVentas;
           this.totalVentasCredito = data.value.totalVentasCredito;
           this.totalProductos = data.value.totalProductos;
-
           const arrayData: any[] = data.value.ventasUltimaSemana;
 
           const labelTemp = arrayData.map((value) => value.fecha);
