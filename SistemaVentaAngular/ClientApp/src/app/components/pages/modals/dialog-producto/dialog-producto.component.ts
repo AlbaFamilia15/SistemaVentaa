@@ -42,11 +42,13 @@ export class DialogProductoComponent implements OnInit {
       isCantidad: [false],
       image: [''],
       precio5ML: ['', this.isPriceML ? Validators.required : null],
+      precio3ML: ['', this.isPriceML ? Validators.required : null],
       precio10ML: ['', this.isPriceML ? Validators.required : null],
       precio15ML: ['', this.isPriceML ? Validators.required : null],
       precio30ML: ['', this.isPriceML ? Validators.required : null],
       precio100ML: ['', this.isPriceML ? Validators.required : null],
       cost5ML: ['', this.isPriceML ? Validators.required : null],
+      cost3ML: ['', this.isPriceML ? Validators.required : null],
       cost10ML: ['', this.isPriceML ? Validators.required : null],
       cost15ML: ['', this.isPriceML ? Validators.required : null],
       cost30ML: ['', this.isPriceML ? Validators.required : null],
@@ -100,11 +102,13 @@ export class DialogProductoComponent implements OnInit {
         image: this.productoEditar.image,
         cost: this.productoEditar.cost,
         precio5ML: this.productoEditar.precio5ML,
+        precio3ML: this.productoEditar.precio3ML,
         precio10ML: this.productoEditar.precio10ML,
         precio15ML: this.productoEditar.precio15ML,
         precio30ML: this.productoEditar.precio30ML,
         precio100ML: this.productoEditar.precio100ML,
         cost5ML: this.productoEditar.cost5ML,
+        cost3ML: this.productoEditar.cost3ML,
         cost10ML: this.productoEditar.cost10ML,
         cost15ML: this.productoEditar.cost15ML,
         cost30ML: this.productoEditar.cost30ML,
@@ -117,11 +121,11 @@ export class DialogProductoComponent implements OnInit {
   agregarEditarProducto() {
     const formData = new FormData();
     if (this.formProducto.value.idCategoria == 2) {
-      if (!this.formProducto.value.precio5ML || !this.formProducto.value.precio10ML || !this.formProducto.value.precio15ML || !this.formProducto.value.precio30ML || !this.formProducto.value.precio100ML) {
+      if (!this.formProducto.value.precio3ML ||!this.formProducto.value.precio5ML || !this.formProducto.value.precio10ML || !this.formProducto.value.precio15ML || !this.formProducto.value.precio30ML || !this.formProducto.value.precio100ML) {
         this.mostrarAlerta("Please fill all the precio ML fields", "Exito");
         return;
       }
-      if (!this.formProducto.value.cost5ML || !this.formProducto.value.cost10ML || !this.formProducto.value.cost15ML || !this.formProducto.value.cost30ML || !this.formProducto.value.cost100ML) {
+      if (!this.formProducto.value.cost3ML ||!this.formProducto.value.cost5ML || !this.formProducto.value.cost10ML || !this.formProducto.value.cost15ML || !this.formProducto.value.cost30ML || !this.formProducto.value.cost100ML) {
         this.mostrarAlerta("Please fill all the Cost ML fields", "Exito");
         return;
       }
@@ -138,6 +142,7 @@ export class DialogProductoComponent implements OnInit {
       descripcionCategoria: "",
       precio: this.formProducto.value.precio != "" ? this.formProducto.value.precio : 0,
       precio5ML: this.formProducto.value.precio5ML != "" ? this.formProducto.value.precio5ML : 0,
+      precio3ML: this.formProducto.value.precio3ML != "" ? this.formProducto.value.precio3ML : 0,
       precio10ML: this.formProducto.value.precio10ML != "" ? this.formProducto.value.precio10ML : 0,
       precio15ML: this.formProducto.value.precio15ML != "" ? this.formProducto.value.precio15ML : 0,
       precio30ML: this.formProducto.value.precio30ML != "" ? this.formProducto.value.precio30ML : 0,
@@ -147,6 +152,7 @@ export class DialogProductoComponent implements OnInit {
       isCantidad: this.formProducto.value.isCantidad,
       cost: this.formProducto.value.cost != "" ? this.formProducto.value.cost : 0,
       cost5ML: this.formProducto.value.cost5ML != "" ? this.formProducto.value.cost5ML : 0,
+      cost3ML: this.formProducto.value.cost3ML != "" ? this.formProducto.value.cost3ML : 0,
       cost10ML: this.formProducto.value.cost10ML != "" ? this.formProducto.value.cost10ML : 0,
       cost15ML: this.formProducto.value.cost15ML != "" ? this.formProducto.value.cost15ML : 0,
       cost30ML: this.formProducto.value.cost30ML != "" ? this.formProducto.value.cost30ML : 0,

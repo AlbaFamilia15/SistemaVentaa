@@ -11,11 +11,13 @@ export interface Producto {
   imagePath?: string;
   cost: number;
   precio5ML:string,
+  precio3ML:string,
   precio10ML:string,
   precio15ML:string,
   precio30ML:string,
   precio100ML:string,
   cost5ML:number,
+  cost3ML:number,
   cost10ML:number,
   cost15ML:number,
   cost30ML:number,

@@ -115,7 +115,11 @@ export class VenderComponent implements OnInit {
     let cost = this.agregarProducto.cost;
     let isCategoria: boolean = false;
     if (this.agregarProducto.idCategoria == 2) {
-      if (this.formGroup.value.cantidad == 5) {
+      if (this.formGroup.value.cantidad == 3) {
+        isCategoria = true;
+        this.agregarProducto.precio = this.agregarProducto.precio3ML;
+        this.agregarProducto.cost = this.agregarProducto.cost3ML;
+      } else if (this.formGroup.value.cantidad == 5) {
         isCategoria = true;
         this.agregarProducto.precio = this.agregarProducto.precio5ML;
         this.agregarProducto.cost = this.agregarProducto.cost5ML;
@@ -246,7 +250,9 @@ export class VenderComponent implements OnInit {
       let Price: any = Number(this.agregarProducto.precio)
       this.totalPagar = Number(Price);
       if (this.agregarProducto.idCategoria == 2 && !this.offerPrice) {
-        if (this.formGroup.value.cantidad == 5) {
+        if (this.formGroup.value.cantidad == 3) {
+          Price = this.agregarProducto.precio3ML;
+        } else if (this.formGroup.value.cantidad == 5) {
           Price = this.agregarProducto.precio5ML;
         } else if (this.formGroup.value.cantidad == 10) {
           Price = this.agregarProducto.precio10ML;
@@ -271,7 +277,7 @@ export class VenderComponent implements OnInit {
     }
   }
   getPattern(): string {
-    return this.isPriceML ? '^(5|10|15|30|100)$' : '^[0-9]+$';
+    return this.isPriceML ? '^(3|5|10|15|30|100)$' : '^[0-9]+$';
   }
   updateTotal() {
     let Price: any = this.agregarProducto.precio;
@@ -279,7 +285,9 @@ export class VenderComponent implements OnInit {
       this.totalPagar = this.agregarProducto.netPrice;
     }
     if (this.agregarProducto.idCategoria == 2 && !this.offerPrice) {
-      if (this.formGroup.value.cantidad == 5) {
+      if (this.formGroup.value.cantidad == 3) {
+        Price = this.agregarProducto.precio3ML;
+      } else if (this.formGroup.value.cantidad == 5) {
         Price = this.agregarProducto.precio5ML;
       } else if (this.formGroup.value.cantidad == 10) {
         Price = this.agregarProducto.precio10ML;

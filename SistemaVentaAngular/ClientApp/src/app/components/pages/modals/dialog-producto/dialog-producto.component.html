@@ -42,6 +42,13 @@
 
       <mat-grid-tile *ngIf="isPriceML">
         <mat-form-field appearance="outline">
+          <mat-label>Precio 3ML</mat-label>
+          <input matInput autocomplete="off" formControlName="precio3ML" type="text">
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
           <mat-label>Precio 5ML</mat-label>
           <input matInput autocomplete="off" formControlName="precio5ML" type="text">
           <mat-icon matSuffix>attach_money</mat-icon>
@@ -120,6 +127,13 @@
         </mat-form-field>
       </mat-grid-tile>
 
+      <mat-grid-tile *ngIf="isPriceML">
+        <mat-form-field appearance="outline">
+          <mat-label>Cost 3ML</mat-label>
+          <input matInput autocomplete="off" formControlName="cost3ML" type="text">
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
 
       <mat-grid-tile *ngIf="isPriceML">
         <mat-form-field appearance="outline">

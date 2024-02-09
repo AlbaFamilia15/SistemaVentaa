@@ -161,3 +161,9 @@ GO
 
 ALTER TABLE DetalleVentasCredito ADD Cost int NULL
 GO
+
+ALTER TABLE [dbo].[Producto] ADD cost3ML int NULL
+GO
+
+ALTER TABLE [dbo].[Producto] ADD precio3ML decimal(10,2) 
+GO

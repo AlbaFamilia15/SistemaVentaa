@@ -15,6 +15,7 @@ namespace SistemaVentaAngular.Models
         public int? IdCategoria { get; set; }
         public int? Stock { get; set; }
         public decimal? Precio { get; set; }
+        public decimal? Precio3ML { get; set; }
         public decimal? Precio5ML { get; set; }
         public decimal? Precio10ML { get; set; }
         public decimal? Precio15ML { get; set; }
@@ -28,6 +29,7 @@ namespace SistemaVentaAngular.Models
         public string? image { get; set; }
         public int? Cost { get; set; }
         public string? imagePath { get; set; }
+        public int? Cost3ML { get; set; }
         public int? Cost5ML { get; set; }
         public int? Cost10ML { get; set; }
         public int? Cost15ML { get; set; }

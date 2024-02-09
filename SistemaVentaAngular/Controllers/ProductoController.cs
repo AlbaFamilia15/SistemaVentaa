@@ -119,11 +119,13 @@ namespace SistemaVentaAngular.Controllers
                     _productoParaEditar.NetPrice = _producto.NetPrice;
                     _productoParaEditar.isCantidad = _producto.isCantidad;
                     _productoParaEditar.Cost = _producto.Cost;
+                    _productoParaEditar.Precio3ML = _producto.IdCategoria == 2 ?_producto.Precio3ML : 0;
                     _productoParaEditar.Precio5ML = _producto.IdCategoria == 2 ?_producto.Precio5ML : 0;
                     _productoParaEditar.Precio10ML = _producto.IdCategoria == 2 ?_producto.Precio10ML : 0; 
                     _productoParaEditar.Precio15ML = _producto.IdCategoria == 2 ?_producto.Precio15ML : 0;
                     _productoParaEditar.Precio30ML = _producto.IdCategoria == 2 ?_producto.Precio30ML : 0;
                     _productoParaEditar.Precio100ML = _producto.IdCategoria == 2 ?_producto.Precio100ML : 0;
+                    _productoParaEditar.Cost3ML = _producto.IdCategoria == 2 ? _producto.Cost3ML : 0;
                     _productoParaEditar.Cost5ML = _producto.IdCategoria == 2 ? _producto.Cost5ML : 0;
                     _productoParaEditar.Cost10ML = _producto.IdCategoria == 2 ? _producto.Cost10ML : 0;
                     _productoParaEditar.Cost15ML = _producto.IdCategoria == 2 ? _producto.Cost15ML : 0;
